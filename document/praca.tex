@@ -9,12 +9,34 @@
 
 \section{Wstęp}
 
-\begin{minted}[
-    frame=lines,
-    linenos]{dart}
+Praca ma na celu porówanie implementacji identycznej aplikacji android we frameworku Flutter 
+oraz natywnego toolingu do tworzenia aplikacji na platformę android. 
 
-final variable = 'test';
+Porównanie to będzie uwzględniało różnice pomiędzy dwa toolkitami oraz praktyczne róznice w implementacji apliacji, takie jak: 
+ * styl kodu
+ * ilość kodu wymaganego do osiągnieca celu
+ * rodzaj prac dodatkowych wymaganych do deployu aplikacji
+ * łatwość dalszego rozwoju apliacji
 
-\end{minted}
+\subsection{Opis aplikacji tworzonej w ramach projektu}
+
+Aplikacja będzie pomocą dla ludzi interesujacych się fotografią analogową. Aplikacja będzie zawierała konfigurowalny czasomierz do odliczania czasu
+podczas wywoływania filmu lub papieru fotograficznego w warunkach domowych.
+
+\begin{enumerate}
+    \item Pierwszy ekran - Konfiguracja czasomierzy
+    \begin{itemize}
+        \item Ilość czasomierz oraz ile czasu mają odmierzać
+        \item Konfiguracja przerw między czasomierzami
+        \item Przycisk do startu pracy czasomierzy
+    \end{itemize}
+    \item Drugi ekran - Praca czasomierzy
+    \begin{itemize}
+        \item Czasomierze pracują jeden po drugim, każdy odliczając tyle czasu ile zostało zkonfigurowane we wcześniejszym ekranie
+        \item Pomiędzy każdym z czasomierzy, będzie odliczany cooldown zkonfigurowany we wcześniejszym ekranie
+        \item Po zakończonej pracy wyświetli sie informacja o zakończeniu pracy, oraz aplikacja powróci do pierwszego ekranu
+        \item Latający przycisk do anulowania wykonywania czasomierzy
+    \end{itemize}
+\end{enumerate}
 
 \end{document}
