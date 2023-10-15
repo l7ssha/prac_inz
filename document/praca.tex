@@ -3,40 +3,59 @@
 \usepackage{minted}
 \usepackage[T1]{fontenc}
 
-\title{Porówanie implementacji aplikacji Android we toolkicie Flutter oraz natywym toolkicie dla Androida}
+\title{Porówanie implementacji aplikacji z narzędziami dla fotografa analogowego we frameworku Flutter do implementacji w Android NDK w języku Kotlin}
 
 \begin{document}
+
+\maketitle
 
 \section{Wstęp}
 
 Praca ma na celu porówanie implementacji identycznej aplikacji android we frameworku Flutter 
-oraz natywnego toolingu do tworzenia aplikacji na platformę android. 
+oraz implemntacji w języku Kotlin używając Android Native Development Kit.
 
-Porównanie to będzie uwzględniało różnice pomiędzy dwa toolkitami oraz praktyczne róznice w implementacji apliacji, takie jak: 
- * styl kodu
- * ilość kodu wymaganego do osiągnieca celu
- * rodzaj prac dodatkowych wymaganych do deployu aplikacji
- * łatwość dalszego rozwoju apliacji
+Porównanie to będzie uwzględniało różnice pomiędzy dwa toolkitami oraz praktyczne róznice w implementacji apliacji, takie jak:
+\begin{itemize}
+ \item styl kodu
+ \item ilość kodu wymaganego do osiągnieca celu
+ \item rodzaj prac dodatkowych wymaganych do deployu aplikacji
+ \item łatwość dalszego rozwoju apliacji
+\end{itemize}
 
 \subsection{Opis aplikacji tworzonej w ramach projektu}
 
-Aplikacja będzie pomocą dla ludzi interesujacych się fotografią analogową. Aplikacja będzie zawierała konfigurowalny czasomierz do odliczania czasu
-podczas wywoływania filmu lub papieru fotograficznego w warunkach domowych.
+Aplikacja będzie zbiorem narzędzi oraz pomocy dla ludzi interesujacych się fotografią analogową. Aplikacja będzie zawierała między innymi konfigurowalny czasomierz do odliczania czasu
+podczas wywoływania filmu lub papieru fotograficznego w warunkach domowych, organizer do posiadanych oddczyników oraz materiałów forograficznych.
 
 \begin{enumerate}
-    \item Pierwszy ekran - Konfiguracja czasomierzy
+    \item Ekran powitalny z listą dostępnych narzędzi
     \begin{itemize}
-        \item Ilość czasomierz oraz ile czasu mają odmierzać
-        \item Konfiguracja przerw między czasomierzami
-        \item Przycisk do startu pracy czasomierzy
+        \item Czasomierz asystujacy w wywoływaniu filmów i papierów fotograficznych
+        \item Organizer posiadanych materiałów i oddczynników forograficznych
     \end{itemize}
-    \item Drugi ekran - Praca czasomierzy
+    \item Czasomierz
     \begin{itemize}
-        \item Czasomierze pracują jeden po drugim, każdy odliczając tyle czasu ile zostało zkonfigurowane we wcześniejszym ekranie
-        \item Pomiędzy każdym z czasomierzy, będzie odliczany cooldown zkonfigurowany we wcześniejszym ekranie
-        \item Po zakończonej pracy wyświetli sie informacja o zakończeniu pracy, oraz aplikacja powróci do pierwszego ekranu
-        \item Latający przycisk do anulowania wykonywania czasomierzy
+        \item Konfiguracja czasomierzy
+        \begin{itemize}
+            \item Ilość czasomierz oraz ile czasu mają odmierzać
+            \item Konfiguracja przerw między czasomierzami
+            \item Przycisk do startu pracy czasomierzy
+        \end{itemize}
+        \item Praca czasomierzy
+        \begin{itemize}
+            \item Czasomierze pracują jeden po drugim, każdy odliczając tyle czasu ile zostało zkonfigurowane we wcześniejszym ekranie
+            \item Pomiędzy każdym z czasomierzy, będzie odliczany cooldown zkonfigurowany we wcześniejszym ekranie
+            \item Po zakończonej pracy wyświetli sie informacja o zakończeniu pracy, oraz aplikacja powróci do pierwszego ekranu
+            \item Latający przycisk do anulowania wykonywania czasomierzy
+        \end{itemize}
     \end{itemize}
+    \item Organizer materiałów oraz oddczynników fotograficznych
+    \begin{itemize}
+        \item Lista aktualnie zapisanych materiałów oraz oddczynników forograficznych
+        \item Ekran dodawania nowego wpisu
+        \item Ekran szczegółów danego wpisu 
+    \end{itemize}
+    \item 
 \end{enumerate}
 
 \subsection{Wykorzystane technologie}
@@ -46,9 +65,10 @@ Do implementacji aplikacji w toolkicie Flutter zostajną wykorzystane:
     \item Dart
 \end{itemize}
 
-Do implementacji aplikacji w toolkicie natywnym dla Androida zostajną wykorzystane:
+Do implementacji aplikacji w Android NDK wykorzystane:
 \begin{itemize}
     \item Kotlin
+    \item NDK
     \item JDK
 \end{itemize}
 
