@@ -1,0 +1,84 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{minted}
+\usepackage[T1]{fontenc}
+
+\renewcommand*\contentsname{Spis treści}
+
+\title{Stacja pogodowa oparta na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API}
+\author{Szymon Uglis}
+
+\begin{document}
+
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+
+\tableofcontents{}
+\pagebreak
+
+\section{Wstęp}
+
+// TODO:
+
+\section{Cel projektu}
+
+Celem projektu jest zbadanie przydatności modułu ESP32 oraz kompatybilnych komponentów do celów kolekcji danych pogodowych. 
+Rezultatem będzie utworzenie urządzenia opartego na systemie wbudwanym pozwalającym na wielofunkcyjny pomiar parametrów pogodowych oraz udostępnianie ich za pomocą witryny www.
+
+Urządzenie, będzie udostępniało również interfejs programistyczny API REST, które będzie umożliwiało integracje oraz dalszy rozwój projektu 
+(np. integracja z systemem home assitant czy innymi urządzeniami Internetu rzeczy (IoT))
+
+\section{Opis rozwiązania tworzonego w ramach projektu}
+
+Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz kilku czujników pozwalająych kolekcje danych pogodowych (takich jak temperatura, ciśnienie powietrza i inne)
+
+\paragraph{Funkcje urządzenia:}
+\begin{itemize}
+    \item Pomiar oraz kalkulacja danych pogodowych na podstawie danych wejściowych z czujników
+    \item Udostępnienie i agregacja danych w postaci strony www
+    \item Udostępnienie interfejsu programistycznego REST 
+\end{itemize}
+
+\subsection{Wykorzystane technologie}
+Do implemntacji systemu wbudowanego wykorzystane zostaną:
+\begin{itemize}
+    \item Język C do utworzenia oprogramowania mikrokontrolera
+    \item Środowisko programistyczne Arduino Studio
+    \item Język HTML oraz CSS do utworzenia interfejsu www
+\end{itemize}
+
+\subsection{Zastosowany mikrokontroler oraz czujniki}
+
+\begin{itemize}
+    \item Mikrokontroler ESP-WROOM-32
+    \item Czujnik natężenia światła - TSL25911
+    \item Czujnik temperatury i wilgotności - DHT22
+    \item Czujnik ciśnienia oraz temperatury - DPS310
+\end{itemize}
+
+\subsection{Opis 7W}
+
+// TODO: 
+
+\subsection{Wymagania niefunkcjonalne}
+
+// TODO: 
+
+\subsection{Przypadki użycia}
+
+\begin{itemize}
+    \item Monitoring warunków pogodowych bez dodatkowych integracji
+    \begin{itemize}
+        \item Uruchomienie urządzenia w danym miejscu
+        \item Monitoring zmian parametrów pogodowych za pomocą wbudowanego interfejsu www
+    \end{itemize}
+    \item Wykorzystanie interfejsu programistycznego REST API
+    \begin{itemize}
+        \item Uruchomienie urządzenia w danym miejscu
+        \item Połączenie oraz pobranie danych z urządzenia za pomocą interfejsu REST w dowolnym języku programowania i technologii
+    \end{itemize}
+\end{itemize}
+
+
+\end{document}

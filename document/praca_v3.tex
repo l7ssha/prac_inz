@@ -1,0 +1,93 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{minted}
+\usepackage[T1]{fontenc}
+
+\renewcommand*\contentsname{Spis treści}
+
+\title{Stacja pogodowa oparta na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API}
+\author{Szymon Uglis}
+
+\begin{document}
+
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+
+\tableofcontents{}
+\pagebreak
+
+\section{Wstęp}
+
+// TODO:
+
+\subsection{Cel projektu}
+
+Celem projektu jest zbadanie przydatności modułu ESP32 oraz kompatybilnych komponentów do celów kolekcji danych pogodowych. 
+Rezultatem będzie utworzenie urządzenia opartego na systemie wbudwanym pozwalającym na wielofunkcyjny pomiar parametrów pogodowych oraz udostępnianie ich za pomocą witryny www.
+
+Urządzenie, będzie udostępniało również interfejs programistyczny API REST, które będzie umożliwiało integracje oraz dalszy rozwój projektu 
+(np. integracja z systemem home assitant czy innymi urządzeniami Internetu rzeczy (IoT))
+
+\subsection{Opis rozwiązania tworzonego w ramach projektu}
+
+Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz kilku czujników pozwalająych kolekcje danych pogodowych (takich jak temperatura, ciśnienie powietrza i inne)
+
+\paragraph{Funkcje urządzenia}
+\begin{itemize}
+    \item Pomiar oraz kalkulacja danych pogodowych na podstawie danych wejściowych z czujników
+    \item Udostępnienie i agregacja danych w postaci strony www
+    \item Udostępnienie interfejsu programistycznego REST 
+\end{itemize}
+
+\section{Środowisko programowe}
+Do implemntacji systemu wbudowanego wykorzystane zostaną:
+\begin{itemize}
+    \item Język C do utworzenia oprogramowania mikrokontrolera
+    \item Język HTML oraz CSS do utworzenia interfejsu www
+    \item Środowisko programistyczne Arduino Studio
+\end{itemize}
+
+\section{Konfiguracja sprzętowa}
+
+\begin{itemize}
+    \item Mikrokontroler ESP-WROOM-32
+    \item Czujnik natężenia światła - TSL25911
+    \item Czujnik temperatury i wilgotności powietrza - DHT22
+    \item Czujnik ciśnienia oraz temperatury - DPS310
+\end{itemize}
+
+\subsection{ESP32-WROOM-32}
+// TODO
+
+\subsection{Czujnik natężenia światła - TSL25911}
+// TODO
+
+\subsection{Czujnik temperatury i wilgotności powietrza - DHT22}
+// TODO
+
+\subsection{Czujnik ciśnienia oraz temperatury - DPS310}
+// TODO
+
+\section{Oprogramowanie}
+// TODO
+
+\subsection{Dostęp do danych przez przeglądarkę}
+// TODO
+
+\subsection{Dostęp do danych przez REST API}
+// TODO
+
+\section{Testy}
+// TODO
+
+\section{Wnioski}
+// TODO
+
+\section{Literatura}
+// TODO
+
+\section{Spisy rysunków, programów, ekranów, tabel, fotografii}
+// TODO
+
+\end{document}
