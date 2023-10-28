@@ -48,7 +48,7 @@ Do implemntacji systemu wbudowanego wykorzystane zostaną:
     \item Język HTML oraz CSS do utworzenia interfejsu www
 \end{itemize}
 
-\subsection{Zastosowany mikrokontroler oraz czujniki}
+\subsection{Zastosowany mikrokontroler oraz czujniki} \label{list_of_components}
 
 \begin{itemize}
     \item Mikrokontroler ESP-WROOM-32
@@ -59,11 +59,55 @@ Do implemntacji systemu wbudowanego wykorzystane zostaną:
 
 \subsection{Opis 7W}
 
-// TODO: 
+\subsubsection{Why}
+Urządzenie oraz aplikacja powstaje w celu zbioru oraz prezentacji danych pogodowych w formacie przyjaznym dla uzytkownika oraz w formacie, który
+umożliwi integrację z innymi systemami.
 
-\subsection{Wymagania niefunkcjonalne}
+\subsubsection{What}
+Należy przygotować urządzenie umożliwiające kolekcję danych oraz ich udostępnianie oraz należy przygotować oprogramowanie, które będzie 
+sterowało pracą urządzenia.
 
-// TODO: 
+\subsubsection{When}
+
+Wytwarzanie prototypu produktu zajmie 120 dni. Od 28.10.2023 do 28.02.2024.
+
+\subsubsection{Who}
+
+\begin{itemize}
+    \item Klient
+    \item Programista (1)
+\end{itemize}
+
+\subsubsection{Where}
+Wrocławska Akademia Biznesu w Naukach Stosowanych, ul. Aleksandra Ostrowskiego 22, 53-238 Wrocław
+
+\subsubsection{How}
+
+Zostanie skonstruowane urządzenie za pomocą komponentów wymienionych w punkcie \ref{list_of_components} oraz zostanie napisane 
+oprogramowanie sterujące w języku C. Produkt będzie wytwarzany w metodologii waterfall.
+
+\subsubsection{How}
+
+Wytwarzanie prototypu produktu zajmie 120 dni.
+
+\subsection{Wymagania niefunkcyjne}
+
+\begin{enumerate}
+    \item Prostota instalacji urządzenia
+    \item Możliwość zasilenia za pomocą kabla z końcówką USB-C
+    \item Łatwość dostępu do danych dla końcowego użytkownika
+    \item Dokumentacja do połączenia z API programistycznym
+\end{enumerate}
+
+\subsection{Wymagania funkcyjne}
+
+\begin{enumerate}
+    \item Podłączenie urządzenia oraz pierwsza konfiguracja\\
+    Opis: Podłączenie urządzenia do źródła zasilania, wyszukanie punktu wifi urządzenia, wpisanie dostępów do wifi docelowego
+    \item Odwiedzenie strony www zawierającej dane zebrane przez urządzenie\\
+    Opis: Odwiedzenie strony www stworzonej przez urządzenie, odczytanie danych zebrnych przez urządzenie w formacie łatwo dostępnym dla
+    użytkownika końcowego
+\end{enumerate}
 
 \subsection{Przypadki użycia}
 
