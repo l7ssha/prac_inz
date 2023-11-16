@@ -107,8 +107,7 @@ void loop(void) {
 
   String req = client.readStringUntil('\r');
 
-  // First line of HTTP request looks like "GET /path HTTP/1.1"
-  // Retrieve the "/path" part by finding the spaces
+  // "GET /path HTTP/1.1"
   int addr_start = req.indexOf(' ');
   int addr_end = req.indexOf(' ', addr_start + 1);
   if (addr_start == -1 || addr_end == -1) {
