@@ -3,6 +3,7 @@
 #include "DHT.h"
 #include "Adafruit_TSL2591.h"
 #include "Adafruit_DPS310.h"
+#include "Adafruit_LTR390.h"
 
 #define DHTPIN 23
 #define DHTTYPE DHT22
@@ -10,6 +11,7 @@
 DHT dht(DHTPIN, DHTTYPE);
 Adafruit_TSL2591 tsl = Adafruit_TSL2591(2591);
 Adafruit_DPS310 dps;
+Adafruit_LTR390 ltr = Adafruit_LTR390();
 
 struct CurrentReadingData {
   float temperature;
@@ -20,6 +22,7 @@ struct CurrentReadingData {
   uint16_t infrared_light;
   float calculated_lux;
   float pressure;
+  uint32_t uvs;
 } current_reading_data;
 
 void readTSL() {
@@ -59,6 +62,15 @@ void readDPS()
   current_reading_data.pressure = pressure_event.pressure;
 }
 
+void readLTR()
+{
+  if (!ltr.newDataAvailable()) {
+    return;
+  }
+
+  current_reading_data.uvs = ltr.readUVS();
+}
+
 void send_debug_info_to_serial()
 {
   Serial.print(F("DHT22 sensor data - Temp: '"));
@@ -83,6 +95,10 @@ void send_debug_info_to_serial()
   Serial.print(current_reading_data.pressure);
   Serial.println(F("hPa'"));
 
+  Serial.print(F("LTR390 sensor data - UVS: '"));
+  Serial.print(current_reading_data.uvs);
+  Serial.println(F("'"));
+
   Serial.println(F(""));
 }
 
@@ -95,6 +111,12 @@ void setup()
   tsl.setGain(TSL2591_GAIN_MED);
   tsl.setTiming(TSL2591_INTEGRATIONTIME_300MS);
   dps.begin_I2C();
+  
+  ltr.begin();
+  ltr.setMode(LTR390_MODE_UVS);
+  ltr.setGain(LTR390_GAIN_3);
+  ltr.setResolution(LTR390_RESOLUTION_16BIT);
+  ltr.setThresholds(100, 1000);
 }
 
 void loop()
@@ -102,6 +124,7 @@ void loop()
   readDHT();
   readTSL();
   readDPS();
+  readLTR();
 
   send_debug_info_to_serial();
 }
