@@ -92,6 +92,7 @@ void setup(void) {
 
 void loop(void) {
   readDHT();
+  readTSL();
 
   WiFiClient client = server.available();
   if (!client) {

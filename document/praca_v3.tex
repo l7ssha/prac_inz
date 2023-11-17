@@ -2,6 +2,7 @@
 
 \usepackage{minted}
 \usepackage[T1]{fontenc}
+\usepackage{url}
 
 \renewcommand*\contentsname{Spis treści}
 
@@ -10,9 +11,9 @@
 
 \begin{document}
 
-\begin{titlepage}
-    \maketitle
-\end{titlepage}
+% \begin{titlepage}
+%     \maketitle
+% \end{titlepage}
 
 \tableofcontents{}
 \pagebreak
@@ -31,7 +32,7 @@ Urządzenie, będzie udostępniało również interfejs programistyczny API REST
 
 \subsection{Opis rozwiązania tworzonego w ramach projektu}
 
-Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz kilku czujników pozwalająych kolekcje danych pogodowych (takich jak temperatura, ciśnienie powietrza i inne)
+Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz czujników pozwalająych kolekcje danych pogodowych (temperatury, ciśnienia, natężenia światła, wskaźnika UV)
 
 \paragraph{Funkcje urządzenia}
 \begin{itemize}
@@ -41,11 +42,11 @@ Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz kilku czujn
 \end{itemize}
 
 \section{Środowisko programowe}
-Do implemntacji systemu wbudowanego wykorzystane zostaną:
+Do implementacji systemu wbudowanego wykorzystane zostaną:
 \begin{itemize}
     \item Język C do utworzenia oprogramowania mikrokontrolera
     \item Język HTML oraz CSS do utworzenia interfejsu www
-    \item Środowisko programistyczne Arduino Studio
+    \item Środowisko programistyczne Arduino Studio w wersji 2.2.1
 \end{itemize}
 
 \section{Konfiguracja sprzętowa}
@@ -55,6 +56,7 @@ Do implemntacji systemu wbudowanego wykorzystane zostaną:
     \item Czujnik natężenia światła - TSL25911
     \item Czujnik temperatury i wilgotności powietrza - DHT22
     \item Czujnik ciśnienia oraz temperatury - DPS310
+    \item Czujnik światła ultrafioletowego - LTR390
 \end{itemize}
 
 \subsection{ESP-WROOM-32}
@@ -68,6 +70,8 @@ Do implemntacji systemu wbudowanego wykorzystane zostaną:
 
 \subsection{Czujnik ciśnienia oraz temperatury - DPS310}
 // TODO
+
+\subsection{Czujnik światła ultrafioletowego - LTR390}
 
 \section{Oprogramowanie}
 // TODO
@@ -85,7 +89,19 @@ Do implemntacji systemu wbudowanego wykorzystane zostaną:
 // TODO
 
 \section{Literatura}
-// TODO
+
+\begin{enumerate}
+    \item Dokumentacja czujnika TSL25911\\
+    \url{https://learn.adafruit.com/adafruit-tsl2591}
+    \item Dokumentacja czujnika DPS310\\
+    \url{https://learn.adafruit.com/adafruit-dps310-precision-barometric-pressure-sensor}
+    \item Dokumentacja czujnika DHT22\\
+    \url{https://learn.adafruit.com/dht}
+    \item Dokumentacja czujnika LTR390\\
+    \url{https://learn.adafruit.com/adafruit-ltr390-uv-sensor}
+    \item Dokumentacja mikrokontrolera ESP-WROOM-32\\
+    \url{https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf}
+\end{enumerate}
 
 \section{Spisy rysunków, programów, ekranów, tabel, fotografii}
 // TODO
