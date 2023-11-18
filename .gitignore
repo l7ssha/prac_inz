@@ -6,3 +6,5 @@
 *.synctex.gz
 *.pdf
 *.toc
+*.bak_*
+*.lck
