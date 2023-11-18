@@ -3,6 +3,7 @@
 \usepackage{minted}
 \usepackage[T1]{fontenc}
 \usepackage{url}
+\usepackage{color,soul}
 
 \renewcommand*\contentsname{Spis treści}
 
@@ -20,7 +21,15 @@
 
 \section{Wstęp}
 
-// TODO:
+\subsection{Wprowadzenie}
+
+Dzięki szerokiemu dostępowi do internetu mamy łatwy dostęp do danych pogodowych aktualnych jak i historycznych z całego świata. Istnieje wiele
+serwisów, programów telewizyjnych, które aktualne dane pogodowe, prognozy pogody prezentują nam w przystępny sposób.
+Problemem z poleganiem na danych pogodowych z popularnych serwisów jest relatywnie niska dokładność aktualnych warunków pogodowych jak i prognoz pogody.
+Bowiem serwisy te nie mogą mieć stacji pogowowych rozstawionych co na przykład kilometr, aby dokładność dla każdego potencjalnego zainteresowana była wysoka.
+Dlatego polega się w dużym stopniu na ogólnych danych z kilku, bądź kilkunatstu stacji w danym regionie, aby wykonać ekstrapolację dla
+aktualnych warunków pogodowych dla całego regionu. 
+Serwisy udostępniające dane pogodowe dla lokalizacji są tylko przybliżeniem faktycznych stanu jaki znajduje sie w danym miejscu. 
 
 \subsection{Cel projektu}
 
@@ -52,7 +61,7 @@ Do implementacji systemu wbudowanego wykorzystane zostaną:
 \section{Konfiguracja sprzętowa}
 
 \begin{itemize}
-    \item Mikrokontroler ESP-WROOM-32
+    \item Mikrokontroler - ESP-WROOM-32
     \item Czujnik natężenia światła - TSL25911
     \item Czujnik temperatury i wilgotności powietrza - DHT22
     \item Czujnik ciśnienia oraz temperatury - DPS310
@@ -60,7 +69,42 @@ Do implementacji systemu wbudowanego wykorzystane zostaną:
 \end{itemize}
 
 \subsection{ESP-WROOM-32}
-// TODO
+ESP-WROOM-32 (albo ESP32-WROOM-32) to mikrokontroler ze zintegrowanym WIFi oraz bluetooth. Nadaje się do szerokiej gamy zastosowań:
+od kontrolera czujników z niskim poborem energii do zaawansowanych zadań enkodowania sygnałów głosowych czy muzyki.
+
+Moduły bazujące na rdzeniach ESP32 zyskały popularność ze wzklędu na zaintegrowaną obsługę WIFI, 
+niskim kosztom oraz bogatej dokumentacji oraz wielu możliwych integracji.
+
+Mikrokontroler znajdzie zastosowanie w prostych jak i bardziej skomplikowanych projektach, dzięki dwóm rdzenion, które mogą być kontrolowane osobno,
+szerokich możliwościach podłączenia urządzeń perfyferyjnych (wsparcie dla: I2C, UART, SPI oraz inne).
+
+ESP-WROOM-32 składa się z mikrokontrolera ESP32-D0WDQ6 posiadającego dwa rdzenie, które pozwają na prace od 80MHz do 240 MHz. Procesor również
+posiada ko-procesor o niskim poborze mocy, który może zostać użyty zamiast głównych rdzeni w przypadku kiedy nie jest potrzebna duża moc obliczeniowa.
+
+Integracja WIFI, Bluetooth i Bluetooth LE do mikrokontrolera pozwala na rozszerzenie możliwych zastosowań, gdzie nie jest możliwe podłączenie do sieci
+w konwencjonalny spoób za pomocą kabla. Komunikacja bezprzewodowa również umożliwa całkowicie zdalne zastosowania z wykorzystaniem akumulatorów
+oraz paneli słonecznych do zasilania mikrokontrolera.
+
+// TODO: Uzasadnienie użycia ESP-32
+
+\subsubsection{Specyfikacja ESP32}
+\begin{tabular}{|l|l|}
+    \hline
+    Element & Specyfikacja \\
+    \hline
+    Procesor & 2 rdzenie (80-240MHz) \\
+    \hline
+    WIFI & 5802.11 b/g/n (802.11n: przepustowość 150 Mbps) \\
+    \hline
+    Bluetooth & Bluetooth v4.2 i Bluetooth LE \\
+    \hline
+    Pamięć SPI Flash & 4MB \\
+    \hline
+    Napięcie zasilania & 3.0 V ~ 3.6 V \\
+    \hline
+    Zużycie prądu & Średnie: 80 mA \\
+    \hline
+\end{tabular}
 
 \subsection{Czujnik natężenia światła - TSL25911}
 // TODO
@@ -81,6 +125,50 @@ Do implementacji systemu wbudowanego wykorzystane zostaną:
 
 \subsection{Dostęp do danych przez REST API}
 // TODO
+
+\subsection{Dostęp do danych typu DEBUG}
+
+Urządzenie udostępnia dane, które mogą słuzyć do debugowania urządzenia za pomocą interfejsu szeregowego. W przypadku wykorzystanego w projekcie
+mikrokontrolera po uruchomieniu urządzenia dane zostaną wysyłane również na port szeregowy oprócz reszty procesów do przetwarzania danych.
+
+Funkcja \texttt{send\_debug\_info\_to\_serial} wysyła dane na interfejs szeregowy w postaci łatwej do przeczytania:
+
+\begin{minted}[frame=lines,]{c}
+void send_debug_info_to_serial()
+{
+  Serial.print(F("DHT22 sensor data - Temp: '"));
+  Serial.print(current_reading_data.temperature);
+  Serial.print(F("' Humidity: '"));
+  Serial.print(current_reading_data.humidity);
+  Serial.print(F("' Heat index: '"));
+  Serial.print(current_reading_data.heat_index);
+  Serial.println(F("'"));
+
+  Serial.print(F("TSL2591 sensor data - Calculated Lux: '"));
+  Serial.print(current_reading_data.calculated_lux);
+  Serial.print(F("' Full spectrum light: '"));
+  Serial.print(current_reading_data.full_spectrum_light);
+  Serial.print(F("' Infrared light: '"));
+  Serial.print(current_reading_data.infrared_light);
+  Serial.print(F("' Visible light: '"));
+  Serial.print(current_reading_data.visible_light);
+  Serial.println(F("'"));
+
+  Serial.print(F("DPS310 sensor data - Pressure: '"));
+  Serial.print(current_reading_data.pressure);
+  Serial.println(F("hPa'"));
+
+  Serial.print(F("LTR390 sensor data - UVS: '"));
+  Serial.print(current_reading_data.uvs);
+  Serial.println(F("'"));
+
+  Serial.println(F(""));
+}
+\end{minted}
+
+Jako, że powyższa funkcja operuje na dużej ilość tekstu w sposób cały, zostało zastosowana optymalizacja w postaci użycia funkcji 
+\texttt{F} - funkcja ta sprawia, że dany łańcuch znaków nie jest kopiowany do pamięci PSRAM mikrokontrolera przed wysłaniem na interfejs szeregowy, 
+a dane są beźpośrednio kopiowane z programu do strumienia, który wysyłane dane na interfejs. 
 
 \section{Testy}
 // TODO

@@ -8,3 +8,5 @@
 *.toc
 *.bak_*
 *.lck
+*.pygstyle
+*.pygtex

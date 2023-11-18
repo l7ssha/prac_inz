@@ -1,0 +1,37 @@
+* streszczenie / abstract
+* uzasadnienie dlaczego uzylo sie jakies narzędzie, technologie
+* dodac opis problemu (?) (dodanie statyskyki poprawnosci pogody lokalnej (?))
+* Cel pracy
+	zakres pracy
+	uzasadnienie wyboru pracy
+* Podsumowanie
+	plan rozwoju
+
+1. wstep
+1.1 wprowadzenie
+1.2 cel pracy
+1.3 struktura pracy (?)
+
+wymagania funkcjonalne / niefunkcjonalne
+	opis
+	priorytet
+	kryteria akceptacji
+
+settings:
+* czestotliwosc poboru danych
+* kalibracja odczytów każdego z czujników
+* zmiana nazwy urządzenia
+* możliwość konfiguracji dodatkowych funkcji (połączenie do homeassistant za pomocą mqtt
+
+dane o urządzeniu:
+* nazwa urządzenia
+* aktualne settings
+* dane nt połączenia wifi
+
+notes: 
+* bardzo latwo dodac specyficzne czujniki dla danej lokalizacji (czujnik wilgotnosci gleby dla domku letniskowego)
+* napisac ze urządzenie tylko do uzytku lokalnego
+* opisac protokol mdns
+* wybor czujnikow zrobic z porownianiem innych i dlaczego taki a nie inny
+
+aplikacja BLINK do komunikacji z esp32 (
