@@ -4,13 +4,25 @@
 \usepackage[T1]{fontenc}
 \usepackage{url}
 \usepackage{color,soul}
+\usepackage{caption}
+\usepackage{biblatex}
+\usepackage{float}
 
+\newfloat{code}{h}{loa}
+\captionsetup[code]{name=Program}
+
+\addbibresource{sources.bib}
+
+\captionsetup[table]{name=Tabela}
 \renewcommand*\contentsname{Spis treści}
+\renewcommand{\listtablename}{Spis tabel}
 
 \title{Stacja pogodowa oparta na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API}
 \author{Szymon Uglis}
 
 \begin{document}
+
+\nocite{*}
 
 % \begin{titlepage}
 %     \maketitle
@@ -46,8 +58,9 @@ Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz czujników 
 \paragraph{Funkcje urządzenia}
 \begin{itemize}
     \item Pomiar oraz kalkulacja danych pogodowych na podstawie danych wejściowych z czujników
-    \item Udostępnienie i agregacja danych w postaci strony www
-    \item Udostępnienie interfejsu programistycznego REST 
+    \item Udostępnienie i agregacja danych na stronie www
+    \item Udostępnienie interfejsu programistycznego REST
+    \item Możliwość zmiany parametrów odczytów sensorów
 \end{itemize}
 
 \section{Środowisko programowe}
@@ -57,6 +70,10 @@ Do implementacji systemu wbudowanego wykorzystane zostaną:
     \item Język HTML oraz CSS do utworzenia interfejsu www
     \item Środowisko programistyczne Arduino Studio w wersji 2.2.1
 \end{itemize}
+
+\subsection{mDNS}
+
+W projekcie zostanie wykorzystany protokół mDNS
 
 \section{Konfiguracja sprzętowa}
 
@@ -85,29 +102,84 @@ Integracja WIFI, Bluetooth i Bluetooth LE do mikrokontrolera pozwala na rozszerz
 w konwencjonalny spoób za pomocą kabla. Komunikacja bezprzewodowa również umożliwa całkowicie zdalne zastosowania z wykorzystaniem akumulatorów
 oraz paneli słonecznych do zasilania mikrokontrolera.
 
-// TODO: Uzasadnienie użycia ESP-32
-
 \subsubsection{Specyfikacja ESP32}
-\begin{tabular}{|l|l|}
-    \hline
-    Element & Specyfikacja \\
-    \hline
-    Procesor & 2 rdzenie (80-240MHz) \\
-    \hline
-    WIFI & 5802.11 b/g/n (802.11n: przepustowość 150 Mbps) \\
-    \hline
-    Bluetooth & Bluetooth v4.2 i Bluetooth LE \\
-    \hline
-    Pamięć SPI Flash & 4MB \\
-    \hline
-    Napięcie zasilania & 3.0 V ~ 3.6 V \\
-    \hline
-    Zużycie prądu & Średnie: 80 mA \\
-    \hline
-\end{tabular}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Element & Specyfikacja \\
+        \hline
+        Procesor & 2 rdzenie (80-240MHz) \\
+        \hline
+        WIFI & 5802.11 b/g/n (802.11n: przepustowość 150 Mbps) \\
+        \hline
+        Bluetooth & Bluetooth v4.2 i Bluetooth LE \\
+        \hline
+        Pamięć SPI Flash & 4MB \\
+        \hline
+        Napięcie zasilania & 3.0 V - 3.6 V \\
+        \hline
+        Zużycie prądu & Średnie: 80 mA \\
+        \hline
+    \end{tabular}
+    \caption{Najważniejsze specyfikacje ESP-WROOM-32}
+    \label{esp32-spec}
+\end{table}
+
+Do realizacji projektu zostata wybrany mikrokontroler ESP-WROOM-32 ze względu na:
+
+\begin{itemize}
+    \item bogate możliwości podłączenia urządzeń perfyferyjnych
+    \item wbudowane wspracie połączeń WIFI
+    \item dużą ilość pamięci flash
+    \item niewielką cenę w porównaniu do oferowanych specyfikacji
+\end{itemize}
+
+\bigskip
+Potencjalnymi alternatywami, które nie zostały wybrane do realizacji projektu są:
+\begin{itemize}
+    \item Arduino Uno R3 (brak wbudowanej obsługi połączeń sieciowych)
+    \item ESP8266 (wolniejszy procesor, mniejsza ilość pamięci flash, mniejsza ilosć wyprowadzeń do podłączenia urządzeń perfyferyjnych)
+\end{itemize}
 
 \subsection{Czujnik natężenia światła - TSL25911}
-// TODO
+
+TSL25911 to czujnik światła z odpowiedzią podobną do ludzkiego oka. Posiada czułość 188 uLux oraz zakres dynamiczny 1 do 600,000,000.
+W porównaniu do innych tańszych rozwiązań bazujących na fotokomórkach CdS, daje o wiele bardziej precyzujne rezultaty, z możliwością zmiany czułości i
+rozdzielczości w locie. 
+
+\subsubsection{Specyfikacja TSL25911}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Element & Specyfikacja \\
+        \hline
+        Rozdzielczość dynamiczna & 1 do 600,000,000 \\
+        \hline
+        Zakres pomiaru & 188 uLux - 88,000 Lux \\
+        \hline
+        Zakres temperatury pracy & -30 - 80 *C \\
+        \hline
+        Interfejs & I2C \\
+        \hline
+        Używane adresy I2C & 0x29 and 0x28 \\
+        \hline
+    \end{tabular}
+    \caption{Specyfikacja TSL25911}
+    \label{tsl25911-spec}
+\end{table}
+
+\subsubsection{Przykładowy program testu czujnika TSL25911}
+
+\begin{code}[H]
+    \inputminted[frame=lines,]{c}{../proj/tsl2591-test/tsl2591-test.ino}
+
+    \caption{Test czujnika TSL25911}
+    \label{diagnostic-data-code}
+\end{code}
 
 \subsection{Czujnik temperatury i wilgotności powietrza - DHT22}
 // TODO
@@ -126,45 +198,49 @@ oraz paneli słonecznych do zasilania mikrokontrolera.
 \subsection{Dostęp do danych przez REST API}
 // TODO
 
-\subsection{Dostęp do danych typu DEBUG}
+\subsection{Dostęp do danych diagnostycznych}
 
 Urządzenie udostępnia dane, które mogą słuzyć do debugowania urządzenia za pomocą interfejsu szeregowego. W przypadku wykorzystanego w projekcie
 mikrokontrolera po uruchomieniu urządzenia dane zostaną wysyłane również na port szeregowy oprócz reszty procesów do przetwarzania danych.
 
-Funkcja \texttt{send\_debug\_info\_to\_serial} wysyła dane na interfejs szeregowy w postaci łatwej do przeczytania:
+Funkcja \texttt{send\_debug\_info\_to\_serial} wysyła dane na interfejs szeregowy w postaci łatwej do przeczytania dla człowieka:
 
+\begin{code}[H]
 \begin{minted}[frame=lines,]{c}
-void send_debug_info_to_serial()
-{
-  Serial.print(F("DHT22 sensor data - Temp: '"));
-  Serial.print(current_reading_data.temperature);
-  Serial.print(F("' Humidity: '"));
-  Serial.print(current_reading_data.humidity);
-  Serial.print(F("' Heat index: '"));
-  Serial.print(current_reading_data.heat_index);
-  Serial.println(F("'"));
-
-  Serial.print(F("TSL2591 sensor data - Calculated Lux: '"));
-  Serial.print(current_reading_data.calculated_lux);
-  Serial.print(F("' Full spectrum light: '"));
-  Serial.print(current_reading_data.full_spectrum_light);
-  Serial.print(F("' Infrared light: '"));
-  Serial.print(current_reading_data.infrared_light);
-  Serial.print(F("' Visible light: '"));
-  Serial.print(current_reading_data.visible_light);
-  Serial.println(F("'"));
-
-  Serial.print(F("DPS310 sensor data - Pressure: '"));
-  Serial.print(current_reading_data.pressure);
-  Serial.println(F("hPa'"));
-
-  Serial.print(F("LTR390 sensor data - UVS: '"));
-  Serial.print(current_reading_data.uvs);
-  Serial.println(F("'"));
-
-  Serial.println(F(""));
-}
+    void send_debug_info_to_serial()
+    {
+        Serial.print(F("DHT22 sensor data - Temp: '"));
+        Serial.print(current_reading_data.temperature);
+        Serial.print(F("' Humidity: '"));
+        Serial.print(current_reading_data.humidity);
+        Serial.print(F("' Heat index: '"));
+        Serial.print(current_reading_data.heat_index);
+        Serial.println(F("'"));
+    
+        Serial.print(F("TSL2591 sensor data - Calculated Lux: '"));
+        Serial.print(current_reading_data.calculated_lux);
+        Serial.print(F("' Full spectrum light: '"));
+        Serial.print(current_reading_data.full_spectrum_light);
+        Serial.print(F("' Infrared light: '"));
+        Serial.print(current_reading_data.infrared_light);
+        Serial.print(F("' Visible light: '"));
+        Serial.print(current_reading_data.visible_light);
+        Serial.println(F("'"));
+    
+        Serial.print(F("DPS310 sensor data - Pressure: '"));
+        Serial.print(current_reading_data.pressure);
+        Serial.println(F("hPa'"));
+    
+        Serial.print(F("LTR390 sensor data - UVS: '"));
+        Serial.print(current_reading_data.uvs);
+        Serial.println(F("'"));
+    
+        Serial.println(F(""));
+    }
 \end{minted}
+\caption{Kod dostępu do danych diagnostycznych}
+\label{diagnostic-data-code}
+\end{code}
 
 Jako, że powyższa funkcja operuje na dużej ilość tekstu w sposób cały, zostało zastosowana optymalizacja w postaci użycia funkcji 
 \texttt{F} - funkcja ta sprawia, że dany łańcuch znaków nie jest kopiowany do pamięci PSRAM mikrokontrolera przed wysłaniem na interfejs szeregowy, 
@@ -178,20 +254,10 @@ a dane są beźpośrednio kopiowane z programu do strumienia, który wysyłane d
 
 \section{Literatura}
 
-\begin{enumerate}
-    \item Dokumentacja czujnika TSL25911\\
-    \url{https://learn.adafruit.com/adafruit-tsl2591}
-    \item Dokumentacja czujnika DPS310\\
-    \url{https://learn.adafruit.com/adafruit-dps310-precision-barometric-pressure-sensor}
-    \item Dokumentacja czujnika DHT22\\
-    \url{https://learn.adafruit.com/dht}
-    \item Dokumentacja czujnika LTR390\\
-    \url{https://learn.adafruit.com/adafruit-ltr390-uv-sensor}
-    \item Dokumentacja mikrokontrolera ESP-WROOM-32\\
-    \url{https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf}
-\end{enumerate}
+\printbibliography[heading=none]
 
-\section{Spisy rysunków, programów, ekranów, tabel, fotografii}
-// TODO
+\section{Spisy programów, tabel, fotografii}
+\listoftables
+\listof{code}{Spis programów}
 
 \end{document}

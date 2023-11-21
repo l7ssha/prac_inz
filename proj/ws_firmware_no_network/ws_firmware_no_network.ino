@@ -108,8 +108,10 @@ void setup()
   Serial.begin(115200);
 
   dht.begin();
+  
   tsl.setGain(TSL2591_GAIN_MED);
   tsl.setTiming(TSL2591_INTEGRATIONTIME_300MS);
+  
   dps.begin_I2C();
   
   ltr.begin();

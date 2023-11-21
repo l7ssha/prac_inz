@@ -34,4 +34,4 @@ notes:
 * opisac protokol mdns
 * wybor czujnikow zrobic z porownianiem innych i dlaczego taki a nie inny
 
-aplikacja BLINK do komunikacji z esp32 (
+aplikacja BLINK do komunikacji z esp32

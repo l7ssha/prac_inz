@@ -10,3 +10,9 @@
 *.lck
 *.pygstyle
 *.pygtex
+*.bcf
+*.lot
+*.bbl
+*.blg
+*.run.xml
+*.loa
