@@ -161,7 +161,7 @@ rozdzielczości w locie.
         \hline
         Zakres pomiaru & 188 uLux - 88,000 Lux \\
         \hline
-        Zakres temperatury pracy & -30 - 80 *C \\
+        Zakres temperatury pracy & -30 - 80 °C \\
         \hline
         Interfejs & I2C \\
         \hline
@@ -178,11 +178,52 @@ rozdzielczości w locie.
     \inputminted[frame=lines,]{c}{../proj/tsl2591-test/tsl2591-test.ino}
 
     \caption{Test czujnika TSL25911}
-    \label{diagnostic-data-code}
 \end{code}
 
 \subsection{Czujnik temperatury i wilgotności powietrza - DHT22}
-// TODO
+
+Czujnik DHT22 składaja się z dwóch części: pojemnościowego czujnika wilgotności i termistora. 
+Wewnątrz znajduje się również bardzo prosty chip, który dokonuje konwersji sygnału analogowego na cyfrowy i wysyła sygnał cyfrowy z temperaturą i wilgotnością. 
+Sygnał cyfrowy jest łatwy do odczytania za pomocą dowolnego mikrokontrolera.
+
+Czujnik ten cechuje sie bardzo niską ceną oraz bardzo dużą dokładnością w stosunku do ceny.
+
+Potencjalnymi alternatywami, które mogły być wykorzystane to:
+\begin{itemize}
+    \item DHT11 (niższa dokładność)
+    \item AHT20 (niższa dokładność odczytu temperatury oraz podobna dokładność odczytu wilgotności, dostępny tylko jeden adres I2C)
+\end{itemize}
+
+Został wybrany DHT11 ze względu na prostote podłączenia (jedno wyjście cyfrowe) co sprawia, że możliwe jest podłączenie
+kilku czujników do jednego mikrokontrolera (co nie możliwe jest w przypadku AHT20, bez wykorzystania na przykład drugigo interfejsu I2C).
+Czujnika DHT22 cechuje się również niskim kosztem oraz wysoką dokładność w stosunku do ceny czujnika, co zadecydowało o finalnym wyborze tego produku. 
+
+\subsubsection{Specyfikacja DHT22}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Element & Specyfikacja \\
+        \hline
+        Zakres oraz dokładność odczytu temperatury & -40 to 80 °C (dokładność: 0.5°C) \\
+        \hline
+        Zakres oraz dokładność odczytu wilgotności & 0 to 100 RH\% (dokładność: 2-5 \%) \\
+        \hline
+        Maksymalna częstotliwość odczytu danych & 0.5Hz \\
+        \hline
+    \end{tabular}
+    \caption{Specyfikacja DHT22}
+    \label{dht22-spec}
+\end{table}
+
+\subsubsection{Przykładowy program testu czujnika DHT22}
+
+\begin{code}[H]
+    \inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
+
+    \caption{Test czujnika DHT22}
+\end{code}
 
 \subsection{Czujnik ciśnienia oraz temperatury - DPS310}
 // TODO
