@@ -163,9 +163,7 @@ rozdzielczości w locie.
         \hline
         Zakres temperatury pracy & -30 - 80 °C \\
         \hline
-        Interfejs & I2C \\
-        \hline
-        Używane adresy I2C & 0x29 and 0x28 \\
+        Interfejs & I2C (adres: 0x29 i 0x28)\\
         \hline
     \end{tabular}
     \caption{Specyfikacja TSL25911}
@@ -226,11 +224,93 @@ Czujnika DHT22 cechuje się również niskim kosztem oraz wysoką dokładność 
 \end{code}
 
 \subsection{Czujnik ciśnienia oraz temperatury - DPS310}
-// TODO
+
+Czujnik DP310 służy do dokładnego pomiaru ciśnienia atmosferycznego oraz posiada dodatkowy czujnik temperatury. Poasiada wysoką dokładność obsolutną +-1 hPa oraz 
+pracuje w zakresie od 300 do 1200 hPa. Czujnik cechuje sie niską ceną, wysoką dokładnością w stosunku do ceny, oraz posiada dodatkowy czujnik temperatury, który może 
+służyć jako preferowana metoda pomiaru temperatury, albo jako dodatkowy punkt w danych pomiarowych.
+
+Potencjalnymi alternatywami, które mogły być wykorzystane to:
+\begin{itemize}
+    \item EE895 (niższa dokładność pomiaru ciśnienia (700-1100 hPa, wysoka cena ze względu na obecność czujnika C02))
+    \item BMP180 (niższa dokładność pomiaru ciśnienia)
+\end{itemize}
+
+Czujnik został wybrany z powodu konkurencyjnej ceny, dużej dostępności oraz wysokiej dokładności pomiaru w stosunku do ceny produktu.
+
+\subsubsection{Specyfikacja DPS310}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Element & Specyfikacja \\
+        \hline
+        Zakres oraz dokładność odczytu temperatury & -40 to 85 °C (dokładność: 1°C) \\
+        \hline
+        Zakres odczytu ciśnienia atmosferycznego & 300 do 1200 hPa \\
+        \hline
+        Dokładność absolutna odczytu ciśnienia atmosferycznego & 1 hPa \\
+        \hline
+        Dokładność dynamiczna (dokładność na zmianę) odczytu ciśnienia atmosferycznego & 0.002 hPa \\
+        \hline
+    \end{tabular}
+    \caption{Specyfikacja DPS310}
+    \label{dps310-spec}
+\end{table}
+
+\subsubsection{Przykładowy program testu czujnika DPS310}
+
+\begin{code}[H]
+    % \inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
+
+    \caption{Test czujnika DPS310}
+\end{code}
 
 \subsection{Czujnik światła ultrafioletowego - LTR390}
 
+Czujnik LTR390 jest urządzeniem o bardzo niskim koszcie oraz wysokiej dokładności na światło w zakresie od 300nm do 350 nm. Czujnik posiada dwa sensory - jeden do światła UV, drugi do światła widzialnego 
+co pozwala na precyzyjne określenie ilości padającego na czujnik światła UV. W porównaniu do innych czujników oferuje bezpośredni odczyt wartości światła UV z sensora (czujnik SI1145 oblicza ilość światła UV z całkowitego odczytu padającego światłą we wszystkich zakresach) 
+oraz pozwala na odczyt dancych za pomocą interfejsu I2C (bez konieczności posiadania interfejsów SPI czy posiadania dodatkowych konwerterów analogowo-cyfrowcych) 
+
+Potencjalnymi alternatywami, które mogły być wykorzystane to:
+\begin{itemize}
+    \item SI1145 (niższa dokładność pomiaru światła UV - brak bezpośreniego odczytu - wartość oblicznana)
+    \item GUVA-S12SD (wymagany konwerter analogow-cyfrowy do odczytu danych)
+\end{itemize}
+
+Czujnik został wybranu z powodu wysokiej dokładności (bezpośredni odczyt wartości padającego światła UV) oraz prostoty podłączenia czujnika do mikrokontrolera (interfejs I2C). 
+Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest dodatkowym plusem.
+
+\subsubsection{Specyfikacja LTR390}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Element & Specyfikacja \\
+        \hline
+        Zakres odczytu światła UV & od 300nm do 350nm \\
+        \hline
+        Zakres odczytu światła widzialnego & od 0 do 524287 (20 bitowy zakres) \\
+        \hline
+        Interfejs & I2C (adres: 0x53) \\
+        \hline
+    \end{tabular}
+    \caption{Specyfikacja LTR390}
+    \label{ltr390-spec}
+\end{table}
+
+\subsubsection{Przykładowy program testu czujnika LTR390}
+
+\begin{code}[H]
+    % \inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
+
+    \caption{Test czujnika LTR390}
+\end{code}
+
 \section{Oprogramowanie}
+
+\subsection{mDNS}
 // TODO
 
 \subsection{Dostęp do danych przez przeglądarkę}
