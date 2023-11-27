@@ -71,10 +71,6 @@ Do implementacji systemu wbudowanego wykorzystane zostaną:
     \item Środowisko programistyczne Arduino Studio w wersji 2.2.1
 \end{itemize}
 
-\subsection{mDNS}
-
-W projekcie zostanie wykorzystany protokół mDNS
-
 \section{Konfiguracja sprzętowa}
 
 \begin{itemize}
@@ -261,7 +257,7 @@ Czujnik został wybrany z powodu konkurencyjnej ceny, dużej dostępności oraz 
 \subsubsection{Przykładowy program testu czujnika DPS310}
 
 \begin{code}[H]
-    % \inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
+    \inputminted[frame=lines,]{c}{../proj/dps310-test/dps310-test.ino}
 
     \caption{Test czujnika DPS310}
 \end{code}
@@ -303,7 +299,7 @@ Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest d
 \subsubsection{Przykładowy program testu czujnika LTR390}
 
 \begin{code}[H]
-    % \inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
+    \inputminted[frame=lines,]{c}{../proj/ltr390-test/ltr390-test.ino}
 
     \caption{Test czujnika LTR390}
 \end{code}
@@ -311,7 +307,36 @@ Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest d
 \section{Oprogramowanie}
 
 \subsection{mDNS}
-// TODO
+
+Protokół mDNS służy do rozwiązywania nazw urządzeń sieciowych do adresów IP - dzięki temu użytkownik ma możliwość połączenia z urządzeniem nie znając
+jego adresu - wystarczy nazwa urządzenia sieciowego. mDNS należy do rodziny protkołów Zeroconf (lub zero-config)\cite{zeroconf-explanation} - nie wymaga konfiguracja do pracy 
+i jest protkół ten wspierany przez Windowsa (10+) oraz Linuxa (po instalacji programu Avahi).
+
+W projekcie zostanie protokół ten użyty, aby użytkownik nie musiał znać adresu IP urządzenia, aby sie z nim połączyć. 
+Protokół jest konfigurowany za pomocą pliku nagłówkowego \texttt{ESPmDNS.h}. Aby skonfigurować usługę, aby mikrokontroler był możliwy do odnalezienia
+w sieci poprzez mDNS nalezy wystartować serwer mDNS oraz dodać nową usługę usługę z typem (w przykładzie \texttt{http}), protkołem (w przykładzie \texttt{tcp}) 
+oraz portem pod którym usługa jest dostępna (w przykładzie: \texttt{80} - port serwera www z danymi, które udostępnia urządzenie).
+
+Po prawidłwej konfiguracji oraz wpisaniu adresu \\\texttt{http://esp32-weather-station.local/} w przeglądarce powinniśmy zobaczyć stronę www udostępnianią przez
+mikrokontroler.
+
+\begin{code}[H]
+    \begin{minted}[frame=lines,]{c}
+        void setup()
+        {
+            // esp32-weather-station.local
+            if (!MDNS.begin("esp32-weather-station")) {
+              Serial.println("Error setting up MDNS responder!");
+              while (1) {
+                delay(1000);
+              }
+            }
+
+            MDNS.addService("http", "tcp", 80);
+        }
+    \end{minted}
+    \caption{Przykład konfiguracji usługi mDNS}
+\end{code}
 
 \subsection{Dostęp do danych przez przeglądarkę}
 // TODO
