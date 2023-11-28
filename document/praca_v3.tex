@@ -82,7 +82,7 @@ Do implementacji systemu wbudowanego wykorzystane zostaną:
 \end{itemize}
 
 \subsection{ESP-WROOM-32}
-ESP-WROOM-32 (albo ESP32-WROOM-32) to mikrokontroler ze zintegrowanym WIFi oraz bluetooth. Nadaje się do szerokiej gamy zastosowań:
+ESP-WROOM-32 (albo ESP32-WROOM-32) to mikrokontroler ze zintegrowanym WIFI oraz bluetooth. Nadaje się do szerokiej gamy zastosowań:
 od kontrolera czujników z niskim poborem energii do zaawansowanych zadań enkodowania sygnałów głosowych czy muzyki.
 
 Moduły bazujące na rdzeniach ESP32 zyskały popularność ze wzklędu na zaintegrowaną obsługę WIFI, 
@@ -98,7 +98,7 @@ Integracja WIFI, Bluetooth i Bluetooth LE do mikrokontrolera pozwala na rozszerz
 w konwencjonalny spoób za pomocą kabla. Komunikacja bezprzewodowa również umożliwa całkowicie zdalne zastosowania z wykorzystaniem akumulatorów
 oraz paneli słonecznych do zasilania mikrokontrolera.
 
-\subsubsection{Specyfikacja ESP32}
+\subsubsection{Specyfikacja ESP-WROOM-32}
 
 \begin{table}[H]
     \centering
@@ -169,9 +169,9 @@ rozdzielczości w locie.
 \subsubsection{Przykładowy program testu czujnika TSL25911}
 
 \begin{code}[H]
-    \inputminted[frame=lines,]{c}{../proj/tsl2591-test/tsl2591-test.ino}
+\inputminted[frame=lines,]{c}{../proj/tsl2591-test/tsl2591-test.ino}
 
-    \caption{Test czujnika TSL25911}
+\caption{Test czujnika TSL25911}
 \end{code}
 
 \subsection{Czujnik temperatury i wilgotności powietrza - DHT22}
@@ -214,9 +214,9 @@ Czujnika DHT22 cechuje się również niskim kosztem oraz wysoką dokładność 
 \subsubsection{Przykładowy program testu czujnika DHT22}
 
 \begin{code}[H]
-    \inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
+\inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
 
-    \caption{Test czujnika DHT22}
+\caption{Test czujnika DHT22}
 \end{code}
 
 \subsection{Czujnik ciśnienia oraz temperatury - DPS310}
@@ -247,7 +247,7 @@ Czujnik został wybrany z powodu konkurencyjnej ceny, dużej dostępności oraz 
         \hline
         Dokładność absolutna odczytu ciśnienia atmosferycznego & 1 hPa \\
         \hline
-        Dokładność dynamiczna (dokładność na zmianę) odczytu ciśnienia atmosferycznego & 0.002 hPa \\
+        Dokładność dynamiczna odczytu ciśnienia atmosferycznego & 0.002 hPa \\
         \hline
     \end{tabular}
     \caption{Specyfikacja DPS310}
@@ -257,9 +257,9 @@ Czujnik został wybrany z powodu konkurencyjnej ceny, dużej dostępności oraz 
 \subsubsection{Przykładowy program testu czujnika DPS310}
 
 \begin{code}[H]
-    \inputminted[frame=lines,]{c}{../proj/dps310-test/dps310-test.ino}
+\inputminted[frame=lines,]{c}{../proj/dps310-test/dps310-test.ino}
 
-    \caption{Test czujnika DPS310}
+\caption{Test czujnika DPS310}
 \end{code}
 
 \subsection{Czujnik światła ultrafioletowego - LTR390}
@@ -299,9 +299,9 @@ Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest d
 \subsubsection{Przykładowy program testu czujnika LTR390}
 
 \begin{code}[H]
-    \inputminted[frame=lines,]{c}{../proj/ltr390-test/ltr390-test.ino}
+\inputminted[frame=lines,]{c}{../proj/ltr390-test/ltr390-test.ino}
 
-    \caption{Test czujnika LTR390}
+\caption{Test czujnika LTR390}
 \end{code}
 
 \section{Oprogramowanie}
@@ -321,28 +321,144 @@ Po prawidłwej konfiguracji oraz wpisaniu adresu \\\texttt{http://esp32-weather-
 mikrokontroler.
 
 \begin{code}[H]
-    \begin{minted}[frame=lines,]{c}
-        void setup()
-        {
-            // esp32-weather-station.local
-            if (!MDNS.begin("esp32-weather-station")) {
-              Serial.println("Error setting up MDNS responder!");
-              while (1) {
-                delay(1000);
-              }
-            }
-
-            MDNS.addService("http", "tcp", 80);
+\begin{minted}[frame=lines,]{c}
+void setup()
+{
+    // esp32-weather-station.local
+    if (!MDNS.begin("esp32-weather-station")) {
+        Serial.println("Error setting up MDNS responder!");
+        while (1) {
+        delay(1000);
         }
-    \end{minted}
-    \caption{Przykład konfiguracji usługi mDNS}
+    }
+
+    MDNS.addService("http", "tcp", 80);
+}
+\end{minted}
+\caption{Przykład konfiguracji usługi mDNS}
 \end{code}
 
+Do implementacji serwera http została użyta biblioteka ESP32 HTTPS Server \cite{esp32-https-server-library}. 
+
+\begin{code}[H]
+\begin{minted}[frame=lines,]{c}
+#include <HTTPServer.hpp>
+#include <HTTPRequest.hpp>
+#include <HTTPResponse.hpp>
+
+httpsserver::HTTPServer http_server = httpsserver::HTTPServer();
+
+void handle_api_request(
+    httpsserver::HTTPRequest *req, 
+    httpsserver::HTTPResponse *res
+);
+void handle_root_request(
+    httpsserver::HTTPRequest *req, 
+    httpsserver::HTTPResponse *res
+);
+
+void setup(void)
+{
+    httpsserver::ResourceNode *nodeRoot = new httpsserver::ResourceNode(
+        "/", 
+        "GET", 
+        &handle_root_request
+    );
+    httpsserver::ResourceNode *nodeApi = new httpsserver::ResourceNode(
+        "/api", 
+        "GET", 
+        &handle_api_request
+    );
+    http_server.registerNode(nodeRoot);
+    http_server.registerNode(nodeApi);
+    http_server.start();
+    if (http_server.isRunning()) {
+        Serial.println("Server ready.");
+    }
+}
+
+void loop(void)
+{
+    http_server.loop();
+}
+\end{minted}
+\caption{Wycinek kodu konfigurującego serwer http}
+\label{http-server-code-parts}
+\end{code}
+
+Biblioteka pozwala na proste definiowanie adresów podstron, wraz z przyjmowanym typem zapytania http. Gdy serwer http odbierze zapytanie o
+podstrone z prawidłowym adresem, wykonuje metode zarejestrowaną w obiekcie serwera.
+
 \subsection{Dostęp do danych przez przeglądarkę}
-// TODO
+
+Urządzenie udostępnia stronę www z odczytami czujników w prostym formacie dla odczytu przez człowieka. 
+Przy pomocy HTML oraz CSS prezentowana jest tabela ze wszystkimi danymi, które udostępnia urządzenie, informacja jaki czas temu
+dane były aktulizowane oraz jak długo urządzenie pracuje.
+
+Aktualne dane zebrane przez urządzenie są wstrzykiwane do szablonu http za pomocą funkcji \texttt{sprintf}. W pierwszym parametrze podana jest
+zmienna do bufora na przetwarzane, w drugim zmienna z szablonem html a reszta parametrów to poszczególne dane, które mają być wstrzyknięte.
+Następnie gotowy plik html jest wysyłany do użytkownika.
+
+\begin{code}[H]
+\begin{minted}[frame=lines,]{c}
+void handle_root_request(
+    httpsserver::HTTPRequest *req, 
+    httpsserver::HTTPResponse *res
+) {
+    res->setHeader("Content-Type", "text/html");
+
+    char buffer[2000];
+    sprintf(
+        buffer, 
+        html_template,
+        mdns_hostname,
+        mdns_hostname,
+        current_reading_data.temperature,
+        current_reading_data.humidity,
+        current_reading_data.heat_index,
+        current_reading_data.visible_light,
+        current_reading_data.full_spectrum_light,
+        current_reading_data.infrared_light,
+        current_reading_data.calculated_lux,
+        current_reading_data.pressure,
+        current_reading_data.uvs,
+        sensor_read_delay,
+        calculate_uptime()
+    );
+
+    res->print(buffer);
+}
+\end{minted}
+\caption{Kod obsługujący interfejs użytkownika}
+\label{user-interface-code}
+\end{code}
+
+Szablon pliku html jest przechowywany w pamięci programowej programu w stałej \texttt{html\_template}. Zaletą takiego rozwiązania jest prostota implementacji
+oraz szybkość działania - dane są zawsze gotowe do wykrzystania. Alternatwywnie można byłoby wykorzystać pamięć SPIFFS urządzenia do przechowywania szablonu
+html - byłoby to bardziej elastyczne rozwiązanie, które nie wymagało by ponownej kompilacji programu, aby zmienić szablon html. Z drugiej strony rozwiązanie to
+mogłoby powodować zwiększony narzut przy generowaniu odpowiedzi przy każdym zapytaniu. Ze wzlędu na prostotę pierwszego rozwiązania oraz potencjalne
+problemy z wydajnością drugiego rozwiązania zdecydowałem sie załadować szablon do kodu programu w tej wersji oprogramowania.
+Do deklaracji zawartości zmiennej jest użyta deklaracja literał ciągu znaków (string literal), aby w prosty sposób było możliwe zawarcie w środku 
+zmiennej znaków spcjalnych, znaków niedozwolonych oraz w celu Udostępnienia możliwości deklaracji wieloniowego ciągu znaków.
+
+\begin{code}[H]
+\begin{minted}[frame=lines,]{c}
+const char html_template[] = R"###(
+    <html lang="en">
+    <head>
+    ...
+)###";
+\end{minted}
+\caption{Kod deklaracji szablonu html}
+\label{html-template-code}
+\end{code}
+
+Przyszłym usprawnieniem urządzenia mogłoby być sprawdznie wydajności pamięci SPIFFS do przechowywania szablonów html, aby oszczedzić na pamięci programowej. 
 
 \subsection{Dostęp do danych przez REST API}
-// TODO
+
+Urządzenie udostępnia dane również poprzez REST API w postaci JSON - umożliwia to łatwą integrację urządzenia z innymi narzędziami, 
+albo umożliwia stworzenie własnych integracji. 
 
 \subsection{Dostęp do danych diagnostycznych}
 
@@ -353,36 +469,36 @@ Funkcja \texttt{send\_debug\_info\_to\_serial} wysyła dane na interfejs szerego
 
 \begin{code}[H]
 \begin{minted}[frame=lines,]{c}
-    void send_debug_info_to_serial()
-    {
-        Serial.print(F("DHT22 sensor data - Temp: '"));
-        Serial.print(current_reading_data.temperature);
-        Serial.print(F("' Humidity: '"));
-        Serial.print(current_reading_data.humidity);
-        Serial.print(F("' Heat index: '"));
-        Serial.print(current_reading_data.heat_index);
-        Serial.println(F("'"));
-    
-        Serial.print(F("TSL2591 sensor data - Calculated Lux: '"));
-        Serial.print(current_reading_data.calculated_lux);
-        Serial.print(F("' Full spectrum light: '"));
-        Serial.print(current_reading_data.full_spectrum_light);
-        Serial.print(F("' Infrared light: '"));
-        Serial.print(current_reading_data.infrared_light);
-        Serial.print(F("' Visible light: '"));
-        Serial.print(current_reading_data.visible_light);
-        Serial.println(F("'"));
-    
-        Serial.print(F("DPS310 sensor data - Pressure: '"));
-        Serial.print(current_reading_data.pressure);
-        Serial.println(F("hPa'"));
-    
-        Serial.print(F("LTR390 sensor data - UVS: '"));
-        Serial.print(current_reading_data.uvs);
-        Serial.println(F("'"));
-    
-        Serial.println(F(""));
-    }
+void send_debug_info_to_serial()
+{
+    Serial.print(F("DHT22 sensor data - Temp: '"));
+    Serial.print(current_reading_data.temperature);
+    Serial.print(F("' Humidity: '"));
+    Serial.print(current_reading_data.humidity);
+    Serial.print(F("' Heat index: '"));
+    Serial.print(current_reading_data.heat_index);
+    Serial.println(F("'"));
+
+    Serial.print(F("TSL2591 sensor data - Calculated Lux: '"));
+    Serial.print(current_reading_data.calculated_lux);
+    Serial.print(F("' Full spectrum light: '"));
+    Serial.print(current_reading_data.full_spectrum_light);
+    Serial.print(F("' Infrared light: '"));
+    Serial.print(current_reading_data.infrared_light);
+    Serial.print(F("' Visible light: '"));
+    Serial.print(current_reading_data.visible_light);
+    Serial.println(F("'"));
+
+    Serial.print(F("DPS310 sensor data - Pressure: '"));
+    Serial.print(current_reading_data.pressure);
+    Serial.println(F("hPa'"));
+
+    Serial.print(F("LTR390 sensor data - UVS: '"));
+    Serial.print(current_reading_data.uvs);
+    Serial.println(F("'"));
+
+    Serial.println(F(""));
+}
 \end{minted}
 \caption{Kod dostępu do danych diagnostycznych}
 \label{diagnostic-data-code}
