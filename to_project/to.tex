@@ -2,6 +2,8 @@
 
 \usepackage{minted}
 \usepackage[T1]{fontenc}
+\usepackage[export]{adjustbox}
+\usepackage{graphicx}
 
 \renewcommand*\contentsname{Spis treści}
 
@@ -19,19 +21,12 @@
 
 \section{Wstęp}
 
-// TODO:
-
-\section{Cel projektu}
-
-Celem projektu jest zbadanie przydatności modułu ESP32 oraz kompatybilnych komponentów do celów kolekcji danych pogodowych. 
-Rezultatem będzie utworzenie urządzenia opartego na systemie wbudwanym pozwalającym na wielofunkcyjny pomiar parametrów pogodowych oraz udostępnianie ich za pomocą witryny www.
+Celem projektu jest utworzenie urządzenia do celów kolekcji danych pogodowych. 
 
 Urządzenie, będzie udostępniało również interfejs programistyczny API REST, które będzie umożliwiało integracje oraz dalszy rozwój projektu 
 (np. integracja z systemem home assitant czy innymi urządzeniami Internetu rzeczy (IoT))
 
 \section{Opis rozwiązania tworzonego w ramach projektu}
-
-Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz kilku czujników pozwalająych kolekcje danych pogodowych (takich jak temperatura, ciśnienie powietrza i inne)
 
 \paragraph{Funkcje urządzenia:}
 \begin{itemize}
@@ -93,36 +88,78 @@ Wytwarzanie prototypu produktu zajmie 120 dni.
 \subsection{Wymagania niefunkcyjne}
 
 \begin{enumerate}
-    \item Prostota instalacji urządzenia
-    \item Możliwość zasilenia za pomocą kabla z końcówką USB-C
-    \item Łatwość dostępu do danych dla końcowego użytkownika
+    \item Prostota instalacji urządzenia (maksymalnie 3 kroki od odpakowania do gotowego do działania urządzenia)
+    \item Możliwość zasilenia za pomocą kabla typu USB-C
+    \item Łatwość dostępu do danych dla końcowego użytkownika (strona www)
     \item Dokumentacja do połączenia z API programistycznym
+    \item Możliwość aktualizacji oprogramowania urządzenia z minimalnym czasem przerwy w pracy
+    \item Kompatybilność z każdym chipem ESP-32
+    \item Strona www dla użytkownika stworzona w technologiach HTML, CSS oraz Javascript
+    \item Interfejs programistyczny REST API zwraca dane w formacie JSON
 \end{enumerate}
 
 \subsection{Wymagania funkcyjne}
 
 \begin{enumerate}
     \item Podłączenie urządzenia oraz pierwsza konfiguracja\\
-    Opis: Podłączenie urządzenia do źródła zasilania, wyszukanie punktu wifi urządzenia, wpisanie dostępów do wifi docelowego
-    \item Odwiedzenie strony www zawierającej dane zebrane przez urządzenie\\
+    Opis: Podłączenie urządzenia do źródła zasilania, wyszukanie punktu wifi urządzenia, wpisanie dostępów do wifi docelowego\\
+    Wejście: Urządzenie podłączone do zasilania, połączenie sie z punktem dostępowym urządzenia\\
+    Wyjście: Urządzenie podłączy sie do podanej przez użytkownika sieci bezprzewodowej
+    \item Wyświetlanie aktualnych danych z urządzenia\\
     Opis: Odwiedzenie strony www stworzonej przez urządzenie, odczytanie danych zebrnych przez urządzenie w formacie łatwo dostępnym dla
-    użytkownika końcowego
+    użytkownika końcowego\\
+    Wejście: Przejście na stronę internetową udostępnianą przez urządzenie\\
+    Wyjście: Załadowana strona z aktualnymi danymi z urządzenia\\
+    \item Wyświetlenie danych historycznych\\
+    Opis: Odczyt danych historycznych zbieranych przez urządzenie\\
+    Wejście: Bezpośrednie odwiedzenie strony www lub klikcięcie w przycisk nawigujacy do podstrony z historią ze strony głównej\\
+    Wyjście: Załadowana strona z danymi historycznymi urządzenia\\
+    \item Wyświetlenie strony z ustawieniami\\
+    Opis: Odczyt oraz zmiana ustawień urządznia\\
+    Wejście: Bezpośrednie odwiedzenie strony www lub klikcięcie w przycisk nawigujacy do podstrony z ustawieniami ze strony głównej\\
+    Wyjście: Załadowana strona z ustawieniami urządzenia\\
+    \item Eksport danych historycznych do pliku\\
+    Opis: Możliwość eksportu danych historycznych zapisanych na urządzeniu do formatu json lub csv\\
+    Wejście: Podanie zakresu dat do eksportu danych, wybranie formatu pliku w jakim ma być eksport zrealizowany\\
+    Wyjście: Zostanie pobrany plik w wybranym formacie z danumi z wybranego zakresu\\
 \end{enumerate}
 
 \subsection{Przypadki użycia}
 
-\begin{itemize}
-    \item Monitoring warunków pogodowych bez dodatkowych integracji
-    \begin{itemize}
-        \item Uruchomienie urządzenia w danym miejscu
-        \item Monitoring zmian parametrów pogodowych za pomocą wbudowanego interfejsu www
-    \end{itemize}
-    \item Wykorzystanie interfejsu programistycznego REST API
-    \begin{itemize}
-        \item Uruchomienie urządzenia w danym miejscu
-        \item Połączenie oraz pobranie danych z urządzenia za pomocą interfejsu REST w dowolnym języku programowania i technologii
-    \end{itemize}
-\end{itemize}
+\begin{enumerate}
+    \item Uruchomienie urządzenia w docelowej lokalizacji\\
+    CEL: Uruchomienie urządzenia w celu zbioru danych pogodowych
+    \begin{enumerate}
+        \item Rozpakowanie urządzenia, podłączenie do zasilania
+        \item Podłączenie sie sie do punktu dostępowego udostępnianego przez urządzenie w celu podłaczenia do sieci bezprzewodowej użytkownika
+        \item Urządzenie podłączyło sie do podanej sieci bez przewodowej, jeśli nie to wróc do punktu b)
+    \end{enumerate}
+    \item Odczyt danych pogodowych\\
+    CEL: Odczytanie aktualnyuch danych pogodowych zbieranych przez urządzenie
+    \begin{enumerate}
+        \item Odwiedzenie strony głównej urządzenia
+    \end{enumerate}
+    \item Odczyt danych historycznych\\
+    CEL: Odczytanie historycznych danych pogodowych zbieranych przez urządzenie
+    \begin{enumerate}
+        \item Odwiedzenie strony głównej urządzenia
+        \item Przejście za pomocą łącza na stronie głównej o nazwie "Dane Historyczne", które przekieruje na podstronę z danymi historycznymi
+    \end{enumerate}
+    \item Eksport danych historycznych\\
+    CEL: Eksport danych historycznych zebranych przez urządzenie do pliku
+    \begin{enumerate}
+        \item Odwiedzenie podstrony z danymi historycznymi
+        \item W sekcji "Eksport" wybranie zakresu dat w jakich ma eksport być wykonany oraz formatu pliku do jakiego eksport ma być utworzony
+        \item Kliknięcie w przycisk "Eksportuj" w sekcji "Eksport"
+        \item Przeglądarka pobierze plik z wyeksportowanymi danymi
+    \end{enumerate}
+    \item Odczyt aktualnych ustawień urządzenia\\
+    CEL: Odczytanie aktualnych ustawień komponentów urządzenia
+    \begin{enumerate}
+        \item Odwiedzenie strony głównej urządzenia
+        \item Przejście za pomocą łącza na stronie głównej o nazwie "Ustawienia", które przekieruje na podstronę z danymi historycznymi
+    \end{enumerate}
+\end{enumerate}
 
 \section{Opis ryzyka}
 
@@ -131,7 +168,7 @@ Wytwarzanie prototypu produktu zajmie 120 dni.
 \begin{enumerate}
     \item Niedotrzymanie terminu\\
     Prawodopodobieństwo: małe\\
-    Istnotność: katastrofalne\\
+    Istnotność: katastrofalna\\
     Przyczyny:
     \begin{itemize}
         \item Słaba koordynacja prac
@@ -142,7 +179,47 @@ Wytwarzanie prototypu produktu zajmie 120 dni.
         \item Zapłata kar umownych
         \item Strata klienta
     \end{itemize}
-    \item Wyniki testów poniżej dopuszczalnej normy jakości
+
+    \item Wyniki testów poniżej dopuszczalnej normy jakości\\
+    Prawodopodobieństwo: małe\\
+    Istnotność: katastrofalna\\
+    Przyczyny:
+    \begin{itemize}
+        \item Nieprzewidziany problem techniczny
+        \item Zbyt małe doświadcznie zespołu
+    \end{itemize}
+    Skutki:
+    \begin{itemize}
+        \item Opóźnienie kolejnego etapu prac
+        \item Możliwa konieczność przygotowania części systemu od początku
+    \end{itemize}
+
+    \item Niedostateczne spełneinie oczekiwań klienta\\
+    Prawodopodobieństwo: małe\\
+    Istnotność: katastrofalna\\
+    Przyczyny:
+    \begin{itemize}
+        \item Brak lub słaba komunikacja z klientem
+        \item Złe lub niedostateczne zrozumienie wymagań klienta
+    \end{itemize}
+    Skutki:
+    \begin{itemize}
+        \item Opóźnienie kolejnego etapu prac
+        \item Możliwa konieczność przygotowania części systemu od początku
+    \end{itemize}
+
+    \item Niska wydajność przygotowanego systemu\\
+    Prawodopodobieństwo: małe\\
+    Istnotność: katastrofalna\\
+    Przyczyny:
+    \begin{itemize}
+        \item Dobranie komponentów z zbyt małej wydajności
+        \item Kiepska optymalizacji kodu
+    \end{itemize}
+    Skutki:
+    \begin{itemize}
+        \item Wolne działanie systemu - długie ładowanie stron, długie czasy eksportów danych
+    \end{itemize}
 \end{enumerate}
 
 
@@ -158,6 +235,47 @@ Wytwarzanie prototypu produktu zajmie 120 dni.
         \begin{enumerate}
             \item Dokładna analiza modułów sprawiających najwięcej błędów
         \end{enumerate}
+    \item Niedostateczne spełnienie oczekiwań klienta
+        \begin{enumerate}
+            \item Analiza wszystkich wcześniejszych ustaleń i dokumentacji projetkowej
+            \item Weryfikacja poprawności systemu do ustaleń z klientem
+            \item Wyznaczenie dodatkowego planu działania w przypadku potrzeby poprawy systemu
+        \end{enumerate}
+    \item Niedostateczne spełnienie oczekiwań klienta
+        \begin{enumerate}
+            \item Analiza wszystkich wcześniejszych ustaleń i dokumentacji projetkowej
+            \item Weryfikacja poprawności systemu do ustaleń z klientem
+            \item Wyznaczenie dodatkowego planu działania w przypadku potrzeby poprawy systemu
+        \end{enumerate}
+    \item Wolniejsze działanie aplikacji niż zamierzone
+        \begin{enumerate}
+            \item Analiza problemów wydajnościowych systemy
+            \item Wyznaczenie dodatkowego planu działania w przypadku potrzeby poprawy systemu
+        \end{enumerate}
 \end{enumerate}
+
+\section{Diagramy}
+
+\subsection{Diagram przypadków użycia}
+\includegraphics[width=\textwidth, center]{use-case-diagram-1.jpg}
+
+\subsection{Diagram sekwencji}
+\includegraphics[width=\textwidth, center]{sequence-diagram-2.jpg}
+
+\subsection{Diagram aktywności}
+\includegraphics[width=\textwidth, center]{activity-diagram.jpg}
+
+\subsection{Diagram klas}
+
+Ze względu, że projekt jest systemem wbudowanym na diagrame klas zostały zaprezentowane jakie
+funkcje są wykonywane.
+
+\includegraphics[width=\textwidth, center]{class-diagram.jpg}
+
+\subsection{Diagram wdrożenia}
+\includegraphics[width=\textwidth, center]{deployment-diagram.jpg}
+
+\subsection{Wykres Gantta}
+\includegraphics[width=\textwidth, center]{gantt.png}
 
 \end{document}
