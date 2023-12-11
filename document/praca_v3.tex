@@ -7,26 +7,54 @@
 \usepackage{caption}
 \usepackage{biblatex}
 \usepackage{float}
+\usepackage{geometry}
+\usepackage{times}
+\usepackage{titlesec}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage{pdfpages}
+
+\AddToHook{cmd/section/before}{\clearpage}
+
+\titleformat*{\section}{\fontsize{14}{10}\bfseries\selectfont\MakeUppercase}
+\titleformat*{\subsection}{\fontsize{13}{10}\bfseries\selectfont}
+
+\geometry{
+    a4paper,
+    left=35mm,
+    right=25mm,
+    top=25mm,
+    bottom=30mm,
+}
 
 \newfloat{code}{h}{loa}
 \captionsetup[code]{name=Program}
 
-\addbibresource{sources.bib}
+\pagestyle{fancyplain}
+\fancyhf{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\renewcommand{\baselinestretch}{1.5}
 
 \captionsetup[table]{name=Tabela}
 \renewcommand*\contentsname{Spis treści}
 \renewcommand{\listtablename}{Spis tabel}
+
+\addbibresource{sources.bib}
 
 \title{Stacja pogodowa oparta na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API}
 \author{Szymon Uglis}
 
 \begin{document}
 
+\justifying
+
 \nocite{*}
 
-% \begin{titlepage}
-%     \maketitle
-% \end{titlepage}
+\begin{titlepage}
+    \includepdf{titlepage}
+\end{titlepage}
 
 \tableofcontents{}
 \pagebreak
@@ -108,7 +136,7 @@ oraz paneli słonecznych do zasilania mikrokontrolera.
         \hline
         Procesor & 2 rdzenie (80-240MHz) \\
         \hline
-        WIFI & 5802.11 b/g/n (802.11n: przepustowość 150 Mbps) \\
+        WIFI & 802.11 b/g/n (802.11n: przepustowość 150 Mbps) \\
         \hline
         Bluetooth & Bluetooth v4.2 i Bluetooth LE \\
         \hline

@@ -16,3 +16,5 @@
 *.blg
 *.run.xml
 *.loa
+!titlepage.pdf
+!titlepage.docx
