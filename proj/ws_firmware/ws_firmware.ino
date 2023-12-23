@@ -1,11 +1,22 @@
+// Define ENABLE_MQTT to enable mqtt functionality
+#define ENABLE_MQTT
+#define ENABLE_HTTP
+
 #include <Wire.h>
 #include <WiFi.h>
-#include <ESPmDNS.h>
-#include <ArduinoJson.h>
 
-#include <HTTPServer.hpp>
-#include <HTTPRequest.hpp>
-#include <HTTPResponse.hpp>
+#if defined(ENABLE_HTTP)
+  #include <ESPmDNS.h>
+  #include <ArduinoJson.h>
+
+  #include <HTTPServer.hpp>
+  #include <HTTPRequest.hpp>
+  #include <HTTPResponse.hpp>
+#endif 
+
+#if defined(ENABLE_MQTT)
+  #include <EspMQTTClient.h>
+#endif
 
 #include <DHT.h>
 #include <Adafruit_TSL2591.h>
@@ -20,6 +31,9 @@ const int read_delay = 1000;
 const char* ssid = "2137";
 const char* password = "TwojaMama123";
 const char* mdns_hostname = "esp32-weather-station";
+
+#if defined(ENABLE_HTTP)
+httpsserver::HTTPServer http_server = httpsserver::HTTPServer();
 
 const char html_template[] = R"###(
 <html lang="en">
@@ -79,8 +93,17 @@ const char html_template[] = R"###(
 </body>
 </html>
 )###";
+#endif
 
-httpsserver::HTTPServer http_server = httpsserver::HTTPServer();
+#if defined(ENABLE_MQTT)
+EspMQTTClient mqtt_client(
+    "192.168.0.15", // host
+    1883, // port
+    "mqtt-user", // username
+    "mqtt-user", // password
+    mdns_hostname // device name
+);
+#endif
 
 DHT dht(DHTPIN, DHTTYPE);
 Adafruit_TSL2591 tsl = Adafruit_TSL2591(2591);
@@ -178,11 +201,33 @@ void send_debug_info_to_serial()
   Serial.println(F(""));
 }
 
-int calculate_uptime(void)
+String float_to_string(float input)
+{
+  char buffer[5];
+  return dtostrf(input, 1, 2, buffer);
+}
+
+int calculate_uptime()
 {
   return (int) (millis() / 1000);
 }
 
+void send_data_to_mqtt()
+{
+#if defined(ENABLE_MQTT)
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/temperature", float_to_string(current_reading_data.temperature));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/humidity", float_to_string(current_reading_data.humidity));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/heat_index", float_to_string(current_reading_data.heat_index));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/calculated_lux", float_to_string(current_reading_data.calculated_lux));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/full_spectrum_light", String(current_reading_data.full_spectrum_light));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/infrared_light", String(current_reading_data.infrared_light));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/visible_light", String(current_reading_data.visible_light));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/pressure", float_to_string(current_reading_data.pressure));
+  mqtt_client.publish("homeassistant/sensor/esp32-weather-station/uvs", String(current_reading_data.uvs));
+#endif
+}
+
+#if defined(ENABLE_HTTP)
 void handle_api_request(httpsserver::HTTPRequest *req, httpsserver::HTTPResponse *res)
 {
   StaticJsonBuffer<JSON_OBJECT_SIZE(10)> jsonBuffer;
@@ -203,7 +248,9 @@ void handle_api_request(httpsserver::HTTPRequest *req, httpsserver::HTTPResponse
   res->setHeader("Content-Type", "application/json");
   obj.printTo(*res);
 }
+#endif
 
+#if defined(ENABLE_HTTP)
 void handle_root_request(httpsserver::HTTPRequest *req, httpsserver::HTTPResponse *res)
 {
   res->setHeader("Content-Type", "text/html");
@@ -229,11 +276,13 @@ void handle_root_request(httpsserver::HTTPRequest *req, httpsserver::HTTPRespons
 
   res->print(buffer);
 }
+#endif
 
-void setup_network(void)
+void setup_network()
 {
   Serial.println("");
 
+#if defined(ENABLE_HTTP)
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
@@ -268,14 +317,20 @@ void setup_network(void)
   }
 
   MDNS.addService("http", "tcp", 80);
+#endif
 }
 
-void read_sensors(void)
+void read_sensors()
 {
   read_dht();
   read_tsl();
   read_dps();
   read_ltr();
+}
+
+// Need for mqtt client
+void onConnectionEstablished()
+{
 }
 
 void setup()
@@ -302,16 +357,23 @@ void setup()
   read_sensors();
 }
 
-void loop(void)
+void loop()
 {
   sensor_read_delay += 1;
 
+#if defined(ENABLE_HTTP)
   http_server.loop();
+#endif
+
+#if defined(ENABLE_MQTT)
+  mqtt_client.loop();
+#endif
 
   if (sensor_read_delay >= read_delay) {
     read_sensors();
 
     send_debug_info_to_serial();
+    send_data_to_mqtt();
 
     sensor_read_delay = 0;
     return;

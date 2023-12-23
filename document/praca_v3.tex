@@ -71,25 +71,33 @@ Dlatego polega się w dużym stopniu na ogólnych danych z kilku, bądź kilkuna
 aktualnych warunków pogodowych dla całego regionu. 
 Serwisy udostępniające dane pogodowe dla lokalizacji są tylko przybliżeniem faktycznych stanu jaki znajduje sie w danym miejscu. 
 
-\subsection{Cel projektu}
+\subsection{Cel projektu oraz opis tworzonego rozwiązania}
 
 Celem projektu jest zbadanie przydatności modułu ESP32 oraz kompatybilnych komponentów do celów kolekcji danych pogodowych. 
 Rezultatem będzie utworzenie urządzenia opartego na systemie wbudwanym pozwalającym na wielofunkcyjny pomiar parametrów pogodowych oraz udostępnianie ich za pomocą witryny www.
 
 Urządzenie, będzie udostępniało również interfejs programistyczny API REST, które będzie umożliwiało integracje oraz dalszy rozwój projektu 
-(np. integracja z systemem home assitant czy innymi urządzeniami Internetu rzeczy (IoT))
+(np. integracja z systemem home assitant czy innymi urządzeniami Internetu rzeczy (IoT)).
 
-\subsection{Opis rozwiązania tworzonego w ramach projektu}
-
-Narzędzie będzie składać sie z mikrokontrolera ESP-WROOM-32 oraz czujników pozwalająych kolekcje danych pogodowych (temperatury, ciśnienia, natężenia światła, wskaźnika UV)
-
-\paragraph{Funkcje urządzenia}
+\subsubsection{Funkcje urządzenia}
 \begin{itemize}
     \item Pomiar oraz kalkulacja danych pogodowych na podstawie danych wejściowych z czujników
     \item Udostępnienie i agregacja danych na stronie www
     \item Udostępnienie interfejsu programistycznego REST
     \item Możliwość zmiany parametrów odczytów sensorów
 \end{itemize}
+
+\subsubsection{Zdalny dostęp do danych}
+
+Urządzenia ze świata IoT są najczęściej urządzeniami lokalnymi (bez publicznego adres IP). 
+Ze względu na niską moc takich urządzeń, oprogramowanie, w które takie urządzenia są wyposażone bardzo często nie zawiera 
+wielu ważnych zabezpieczeń przeciwko atakom. Dodatkowo dane udostępnianie przez urządzenie nie koniecznie powinno być dostępne publicznie 
+(np. dane o obecności osób w pomieszczeniu lub czy zamek od drzmi jest zamknięty). 
+
+Zalecanym jest, aby dostęp do urządzeń IoT był całkowicie lokalny (najlepiej dodatkowo zablokować dosęp do internetu dla tych urządzeń),
+a zbieraniem i udostępnianiem danych publiczych było realizowane przez oprogramowanie dedykowane do tego celu.
+
+Aby zrealizować 
 
 \section{Środowisko programowe}
 Do implementacji systemu wbudowanego wykorzystane zostaną:
@@ -535,6 +543,28 @@ void send_debug_info_to_serial()
 Jako, że powyższa funkcja operuje na dużej ilość tekstu w sposób cały, zostało zastosowana optymalizacja w postaci użycia funkcji 
 \texttt{F} - funkcja ta sprawia, że dany łańcuch znaków nie jest kopiowany do pamięci PSRAM mikrokontrolera przed wysłaniem na interfejs szeregowy, 
 a dane są beźpośrednio kopiowane z programu do strumienia, który wysyłane dane na interfejs. 
+
+\subsection{Integracja z MQTT}
+
+Urządzenie dodatkowo udostępnia możliwość połączenia do serwera MQTT - co umożliwia bezpieczne udostępniane danych do serwera zewnętrzengo.
+Do implementacji połączenia do serwera MQTT użyta została biblioteka \texttt{EspMQTTClient}\cite{esp32-mqtt-server-library} - 
+zarządza połączeniem do serwera oraz wymianą danych między klientem oraz serwerem.
+
+Poniższy kod umożliwia podłączenie urządzenia do lokalnego albo zewnętrzego serwera MQTT: 
+\begin{code}[H]
+\begin{minted}[frame=lines,]{c}
+void send_debug_info_to_serial()
+EspMQTTClient mqtt_client(
+    "192.168.0.15", // host
+    1883, // port
+    "username", // username
+    "password", // password
+    mdns_hostname // device name
+);
+\end{minted}
+\caption{Kod dostępu do danych diagnostycznych}
+\label{diagnostic-data-code}
+\end{code}
 
 \section{Testy}
 // TODO
