@@ -18,3 +18,5 @@
 *.loa
 !titlepage.pdf
 !titlepage.docx
+document/praca_v3.lof
+~$*.pptx

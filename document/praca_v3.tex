@@ -13,6 +13,9 @@
 \usepackage{ragged2e}
 \usepackage{fancyhdr}
 \usepackage{pdfpages}
+\usepackage{graphicx}
+
+\graphicspath{ {./images/} }
 
 \AddToHook{cmd/section/before}{\clearpage}
 
@@ -89,15 +92,16 @@ Urządzenie, będzie udostępniało również interfejs programistyczny API REST
 
 \subsubsection{Zdalny dostęp do danych}
 
-Urządzenia ze świata IoT są najczęściej urządzeniami lokalnymi (bez publicznego adres IP). 
+Urządzenia ze świata IoT są najczęściej urządzeniami lokalnymi - bez publicznego adresu IP i/lub bez możliwości zdalnego dostępu.
 Ze względu na niską moc takich urządzeń, oprogramowanie, w które takie urządzenia są wyposażone bardzo często nie zawiera 
-wielu ważnych zabezpieczeń przeciwko atakom. Dodatkowo dane udostępnianie przez urządzenie nie koniecznie powinno być dostępne publicznie 
+wielu ważnych zabezpieczeń przeciwko potencjalnym atakom. Dodatkowo dane udostępnianie przez urządzenia IoT powinny być dostępne publicznie 
 (np. dane o obecności osób w pomieszczeniu lub czy zamek od drzmi jest zamknięty). 
 
-Zalecanym jest, aby dostęp do urządzeń IoT był całkowicie lokalny (najlepiej dodatkowo zablokować dosęp do internetu dla tych urządzeń),
+Zalecanym jest, aby dostęp do urządzeń IoT był całkowicie lokalny (najlepiej dodatkowo zablokować dostęp do internetu dla tych urządzeń),
 a zbieraniem i udostępnianiem danych publiczych było realizowane przez oprogramowanie dedykowane do tego celu.
 
-Aby zrealizować 
+Aby umożliwić dostęp do danych zbieranych przez tworzone urządzenie będzie implementować możliwość konfiguracji wysyłki danych za pomocą MQTT.
+Dane zagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzane i udostępniane publicznie.
 
 \section{Środowisko programowe}
 Do implementacji systemu wbudowanego wykorzystane zostaną:
@@ -567,7 +571,28 @@ EspMQTTClient mqtt_client(
 \end{code}
 
 \section{Testy}
-// TODO
+
+\subsection{Interfejs WWW}
+Interfejs WWW użytkownika zawiera komplet danych zbieranych przez urządzenie oraz kiedy ostatni raz dane były aktualizowane. 
+Odświeżenie przeglądarki spodowuje pobranie nowych danych z urządzenia.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{web-interface.png}
+\end{figure}
+
+\subsection{Interfejs REST API}
+Interfejs REST dla programisty zwraca dane w formacie JSON.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{rest-api.png}
+\end{figure}
+
+\subsection{MQTT}
+Urządzenie dodatkowo wysyła dane z czujników do skonfigurowane serwera MQTT. Dane są wysyłane od razu po ich aktualizacji.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{mqtt1.png}
+\end{figure}
 
 \section{Wnioski}
 // TODO
