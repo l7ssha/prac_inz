@@ -20,3 +20,6 @@
 !titlepage.docx
 document/praca_v3.lof
 ~$*.pptx
+*.co
+*.code
+*.lo
