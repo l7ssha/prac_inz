@@ -30,9 +30,6 @@
     bottom=30mm,
 }
 
-\newfloat{code}{h}{loa}
-\captionsetup[code]{name=Program}
-
 \pagestyle{fancyplain}
 \fancyhf{}
 \fancyfoot[R]{\thepage}
@@ -43,6 +40,33 @@
 \captionsetup[table]{name=Tabela}
 \renewcommand*\contentsname{Spis treści}
 \renewcommand{\listtablename}{Spis tabel}
+\renewcommand{\listfigurename}{Spis obrazków, fotografii}
+
+\newfloat{code}{h}{loa}
+\captionsetup[code]{name=Program}
+
+\makeatletter
+\renewcommand\listoffigures{
+    \subsection*{\listfigurename
+        \@mkboth{
+           \MakeUppercase\listfigurename}{\MakeUppercase\listfigurename}}
+    \@starttoc{lof}
+}
+\renewcommand\listoftables{
+    \subsection*{\listtablename
+        \@mkboth{
+           \listtablename}{\listtablename}}
+    \@starttoc{lot}
+}
+\renewcommand*{\listof}[2]{%
+  \@ifundefined{ext@#1}{\float@error{#1}}{%
+    \@namedef{l@#1}{\@dottedtocline{1}{1.5em}{2.3em}}%
+    \subsection*{#2}% \float@listhead{#2}
+    \begingroup\setlength{\parskip}{\z@}%
+      \@starttoc{\@nameuse{ext@#1}}%
+    \endgroup}
+}
+\makeatother
 
 \addbibresource{sources.bib}
 
@@ -93,15 +117,15 @@ Urządzenie, będzie udostępniało również interfejs programistyczny API REST
 \subsubsection{Zdalny dostęp do danych}
 
 Urządzenia ze świata IoT są najczęściej urządzeniami lokalnymi - bez publicznego adresu IP i/lub bez możliwości zdalnego dostępu.
-Ze względu na niską moc takich urządzeń, oprogramowanie, w które takie urządzenia są wyposażone bardzo często nie zawiera 
-wielu ważnych zabezpieczeń przeciwko potencjalnym atakom. Dodatkowo dane udostępnianie przez urządzenia IoT powinny być dostępne publicznie 
+Ze względu na niską moc takich urządzeń, ubogie oprogramowanie, w które takie urządzenia są wyposażone bardzo często nie zawierają
+wielu ważnych zabezpieczeń przeciwko potencjalnym atakom. Dodatkowo dane udostępnianie przez urządzenia IoT z bardzo często są danymi które nie powinny byc dostępne publicznie
 (np. dane o obecności osób w pomieszczeniu lub czy zamek od drzmi jest zamknięty). 
 
 Zalecanym jest, aby dostęp do urządzeń IoT był całkowicie lokalny (najlepiej dodatkowo zablokować dostęp do internetu dla tych urządzeń),
 a zbieraniem i udostępnianiem danych publiczych było realizowane przez oprogramowanie dedykowane do tego celu.
 
-Aby umożliwić dostęp do danych zbieranych przez tworzone urządzenie będzie implementować możliwość konfiguracji wysyłki danych za pomocą MQTT.
-Dane zagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzane i udostępniane publicznie.
+Aby umożliwić dostęp do danych zbieranych przez tworzone urządzenie będzie implementować możliwość konfiguracji wysyłania danych za pomocą MQTT.
+Dane zagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzane i udostępniane publicznie przez oprogramowanie do tego przystosowane.
 
 \section{Środowisko programowe}
 Do implementacji systemu wbudowanego wykorzystane zostaną:
@@ -209,7 +233,7 @@ rozdzielczości w locie.
 \subsubsection{Przykładowy program testu czujnika TSL25911}
 
 \begin{code}[H]
-\inputminted[frame=lines,]{c}{../proj/tsl2591-test/tsl2591-test.ino}
+\inputminted[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}{../proj/tsl2591-test/tsl2591-test.ino}
 
 \caption{Test czujnika TSL25911}
 \end{code}
@@ -254,7 +278,7 @@ Czujnika DHT22 cechuje się również niskim kosztem oraz wysoką dokładność 
 \subsubsection{Przykładowy program testu czujnika DHT22}
 
 \begin{code}[H]
-\inputminted[frame=lines,]{c}{../proj/dht22-test/dht22-test.ino}
+\inputminted[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}{../proj/dht22-test/dht22-test.ino}
 
 \caption{Test czujnika DHT22}
 \end{code}
@@ -297,7 +321,7 @@ Czujnik został wybrany z powodu konkurencyjnej ceny, dużej dostępności oraz 
 \subsubsection{Przykładowy program testu czujnika DPS310}
 
 \begin{code}[H]
-\inputminted[frame=lines,]{c}{../proj/dps310-test/dps310-test.ino}
+\inputminted[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}{../proj/dps310-test/dps310-test.ino}
 
 \caption{Test czujnika DPS310}
 \end{code}
@@ -337,9 +361,8 @@ Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest d
 \end{table}
 
 \subsubsection{Przykładowy program testu czujnika LTR390}
-
 \begin{code}[H]
-\inputminted[frame=lines,]{c}{../proj/ltr390-test/ltr390-test.ino}
+\inputminted[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}{../proj/ltr390-test/ltr390-test.ino}
 
 \caption{Test czujnika LTR390}
 \end{code}
@@ -361,7 +384,7 @@ Po prawidłwej konfiguracji oraz wpisaniu adresu \\\texttt{http://esp32-weather-
 mikrokontroler.
 
 \begin{code}[H]
-\begin{minted}[frame=lines,]{c}
+\begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
 void setup()
 {
     // esp32-weather-station.local
@@ -381,7 +404,7 @@ void setup()
 Do implementacji serwera http została użyta biblioteka ESP32 HTTPS Server \cite{esp32-https-server-library}. 
 
 \begin{code}[H]
-\begin{minted}[frame=lines,]{c}
+\begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
 #include <HTTPServer.hpp>
 #include <HTTPRequest.hpp>
 #include <HTTPResponse.hpp>
@@ -440,7 +463,7 @@ zmienna do bufora na przetwarzane, w drugim zmienna z szablonem html a reszta pa
 Następnie gotowy plik html jest wysyłany do użytkownika.
 
 \begin{code}[H]
-\begin{minted}[frame=lines,]{c}
+\begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em,samepage]{c}
 void handle_root_request(
     httpsserver::HTTPRequest *req, 
     httpsserver::HTTPResponse *res
@@ -482,7 +505,7 @@ Do deklaracji zawartości zmiennej jest użyta deklaracja literał ciągu znakó
 zmiennej znaków spcjalnych, znaków niedozwolonych oraz w celu Udostępnienia możliwości deklaracji wieloniowego ciągu znaków.
 
 \begin{code}[H]
-\begin{minted}[frame=lines,]{c}
+\begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
 const char html_template[] = R"###(
     <html lang="en">
     <head>
@@ -508,7 +531,7 @@ mikrokontrolera po uruchomieniu urządzenia dane zostaną wysyłane również na
 Funkcja \texttt{send\_debug\_info\_to\_serial} wysyła dane na interfejs szeregowy w postaci łatwej do przeczytania dla człowieka:
 
 \begin{code}[H]
-\begin{minted}[frame=lines,]{c}
+\begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
 void send_debug_info_to_serial()
 {
     Serial.print(F("DHT22 sensor data - Temp: '"));
@@ -578,6 +601,7 @@ Odświeżenie przeglądarki spodowuje pobranie nowych danych z urządzenia.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{web-interface.png}
+    \caption{Test interfejsu WWW}
 \end{figure}
 
 \subsection{Interfejs REST API}
@@ -585,6 +609,7 @@ Interfejs REST dla programisty zwraca dane w formacie JSON.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{rest-api.png}
+    \caption{Test interfejsu REST API}
 \end{figure}
 
 \subsection{MQTT}
@@ -592,10 +617,18 @@ Urządzenie dodatkowo wysyła dane z czujników do skonfigurowane serwera MQTT. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{mqtt1.png}
+    \caption{Test integracji z MQTT}
 \end{figure}
 
 \section{Wnioski}
-// TODO
+Moduły bazujące na mikrokontrolerze ESP32 pozwalają na łatwą realizację projektów, a przez dużą różnorodność
+dostępnych na rynku modułów bazująych na tym mikrokontrolerze daje to ogromną wszechstronność w realizacji oraz dostępności, jednocześnie zachowując kompatybilność między modułami.
+
+W tej pracy zrealizowana lokalna stacja pogodowa umożliwia odczyt danych pogodowych w sieci lokalnej a także umożliwia łatwą integrację z zewnętrzymi systemami (interfejs REST API oraz integracja z MQTT).
+
+Dostęp do danych spoza sieci lokalnej możliwy jest po podłączeniu do dostępnego publicznie serwera MQTT - urządzenie zostaje dostępne tylko w sieci lokalnej i nie jest narażone na potencjalne ataki w przypadku jeżeli urządzenie te byłoby dostępne publicznie. Lokalny dostęp do urządzenia jest jest bardzo prosty dzięki protokołowi mDNS - aby połączyć się z urządzeniem nie jest potrzebny adres IP, a wystarczy nazwa urządzenia w sieci, która jest statyczna.
+
+Kolejnym etapem rozwoju projektu mogłabybyć kolejna wersja interfejsu użytkownika, dodatkowe integracje z innymi systemami zewnętrzynymi lub integracja czujników oraz mikrokontrolera na jednej płytce PCB.
 
 \section{Literatura}
 
@@ -604,5 +637,6 @@ Urządzenie dodatkowo wysyła dane z czujników do skonfigurowane serwera MQTT. 
 \section{Spisy programów, tabel, fotografii}
 \listoftables
 \listof{code}{Spis programów}
+\listoffigures
 
 \end{document}
