@@ -188,20 +188,25 @@ oraz paneli słonecznych do zasilania mikrokontrolera.
 \end{table}
 
 Do realizacji projektu zostata wybrany mikrokontroler ESP-WROOM-32 ze względu na:
-
 \begin{itemize}
     \item bogate możliwości podłączenia urządzeń perfyferyjnych
     \item wbudowane wspracie połączeń WIFI
     \item dużą ilość pamięci flash
     \item niewielką cenę w porównaniu do oferowanych specyfikacji
+    \item łatwą dostępność
 \end{itemize}
 
-\bigskip
-Potencjalnymi alternatywami, które nie zostały wybrane do realizacji projektu są:
+\noindent Potencjalnymi alternatywami, które nie zostały wybrane do realizacji projektu są:
 \begin{itemize}
     \item Arduino Uno R3 (brak wbudowanej obsługi połączeń sieciowych)
-    \item ESP8266 (wolniejszy procesor, mniejsza ilość pamięci flash, mniejsza ilosć wyprowadzeń do podłączenia urządzeń perfyferyjnych)
+    \item ESP8266 (wolniejszy procesor, mniejsza ilość pamięci flash, mniejsza ilość wyprowadzeń do podłączenia urządzeń perfyferyjnych)
+    \item Olimex ESP32-POE\cite{olimex-esp32poe} (wbudowana obsługa połączenie przewodowego ethernet, mniejsza ilość wyprowadzeń do podłączenia urządzeń perfyferyjnych)
+    \item LILYGO T-SIM7000G\cite{lilygo-esp32lte} (wbudowana obsługa LTE, mniejsza ilość wyprowadzeń do podłączenia urządzeń perfyferyjnych, wysoka cena)
 \end{itemize}
+
+\noindent W finalnym produkcie w zależności od przeznaczenia użycie łączności bezprzewodowej może być niewskazane (daleka odległość od punktu dostępowego WIFI, duża ilość przeszkód).
+Użycie innych wersji ESP32 z wbudowaną obsługą przewodowego połączenia sieciowego lub możliwościa połączenia do sieci przez LTE, może być wymagane - jednak
+w ramach realizacji zakresu projektu wybór padł na łatwiej dostępny moduł z łącznością bezprzewodową WIFI.  
 
 \subsection{Czujnik natężenia światła - TSL25911}
 
