@@ -114,7 +114,7 @@ Urządzenie, będzie udostępniało również interfejs programistyczny API REST
     \item Możliwość zmiany parametrów odczytów sensorów
 \end{itemize}
 
-\subsubsection{Zdalny dostęp do danych}
+\subsubsection{Dostęp zdalny do urządzenia}
 
 Urządzenia ze świata IoT są najczęściej urządzeniami lokalnymi - bez publicznego adresu IP i/lub bez możliwości zdalnego dostępu.
 Ze względu na niską moc takich urządzeń, ubogie oprogramowanie, w które takie urządzenia są wyposażone bardzo często nie zawierają
@@ -126,14 +126,6 @@ a zbieraniem i udostępnianiem danych publiczych było realizowane przez oprogra
 
 Aby umożliwić dostęp do danych zbieranych przez tworzone urządzenie będzie implementować możliwość konfiguracji wysyłania danych za pomocą MQTT.
 Dane zagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzane i udostępniane publicznie przez oprogramowanie do tego przystosowane.
-
-\section{Środowisko programowe}
-Do implementacji systemu wbudowanego wykorzystane zostaną:
-\begin{itemize}
-    \item Język C do utworzenia oprogramowania mikrokontrolera
-    \item Język HTML oraz CSS do utworzenia interfejsu www
-    \item Środowisko programistyczne Arduino Studio w wersji 2.2.1
-\end{itemize}
 
 \section{Konfiguracja sprzętowa}
 
@@ -371,6 +363,14 @@ Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest d
 
 \caption{Test czujnika LTR390}
 \end{code}
+
+\section{Środowisko programowe}
+Do implementacji systemu wbudowanego wykorzystane zostaną:
+\begin{itemize}
+    \item Język C do utworzenia oprogramowania mikrokontrolera
+    \item Język HTML oraz CSS do utworzenia interfejsu www
+    \item Środowisko programistyczne Arduino Studio w wersji 2.2.1
+\end{itemize}
 
 \section{Oprogramowanie}
 
@@ -634,6 +634,9 @@ W tej pracy zrealizowana lokalna stacja pogodowa umożliwia odczyt danych pogodo
 Dostęp do danych spoza sieci lokalnej możliwy jest po podłączeniu do dostępnego publicznie serwera MQTT - urządzenie zostaje dostępne tylko w sieci lokalnej i nie jest narażone na potencjalne ataki w przypadku jeżeli urządzenie te byłoby dostępne publicznie. Lokalny dostęp do urządzenia jest jest bardzo prosty dzięki protokołowi mDNS - aby połączyć się z urządzeniem nie jest potrzebny adres IP, a wystarczy nazwa urządzenia w sieci, która jest statyczna.
 
 Kolejnym etapem rozwoju projektu mogłabybyć kolejna wersja interfejsu użytkownika, dodatkowe integracje z innymi systemami zewnętrzynymi lub integracja czujników oraz mikrokontrolera na jednej płytce PCB.
+
+Podłączenie kolejnych czyjników do urządzenia również nie powinno sprawiać problemu ze względu na dużą dostępność dodatkowyć pinów WE/WYJ oraz
+otwartej nartury całego ekosystemu Arduino. 
 
 \section{Literatura}
 

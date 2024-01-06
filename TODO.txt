@@ -35,3 +35,12 @@ notes:
 * wybor czujnikow zrobic z porownianiem innych i dlaczego taki a nie inny
 
 aplikacja BLINK do komunikacji z esp32
+
+--------------------------------------------------------------------------------
+
+* streszczenie / abstract
+* fotografia urządzenia
+* schemat urządzenia z czujnikami
+* test z porównaniem na zewnątrz :)
+
+--------------------------------------------------------------------------------
