@@ -14,6 +14,7 @@
 \usepackage{fancyhdr}
 \usepackage{pdfpages}
 \usepackage{graphicx}
+\usepackage{indentfirst}
 
 \graphicspath{ {./images/} }
 
@@ -38,6 +39,7 @@
 \renewcommand{\baselinestretch}{1.5}
 
 \captionsetup[table]{name=Tabela}
+\captionsetup[figure]{name=Obrazek}
 \renewcommand*\contentsname{Spis treści}
 \renewcommand{\listtablename}{Spis tabel}
 \renewcommand{\listfigurename}{Spis obrazków, fotografii}
@@ -89,7 +91,6 @@
 \section{Wstęp}
 
 \subsection{Wprowadzenie}
-
 Dzięki szerokiemu dostępowi do internetu mamy łatwy dostęp do danych pogodowych aktualnych jak i historycznych z całego świata. Istnieje wiele
 serwisów, programów telewizyjnych, które aktualne dane pogodowe, prognozy pogody prezentują nam w przystępny sposób.
 Problemem z poleganiem na danych pogodowych z popularnych serwisów jest relatywnie niska dokładność aktualnych warunków pogodowych jak i prognoz pogody.
@@ -123,7 +124,6 @@ wielu ważnych zabezpieczeń przeciwko potencjalnym atakom. Dodatkowo dane udost
 
 Zalecanym jest, aby dostęp do urządzeń IoT był całkowicie lokalny (najlepiej dodatkowo zablokować dostęp do internetu dla tych urządzeń),
 a zbieraniem i udostępnianiem danych publiczych było realizowane przez oprogramowanie dedykowane do tego celu.
-
 Aby umożliwić dostęp do danych zbieranych przez tworzone urządzenie będzie implementować możliwość konfiguracji wysyłania danych za pomocą MQTT.
 Dane zagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzane i udostępniane publicznie przez oprogramowanie do tego przystosowane.
 
@@ -137,11 +137,16 @@ Dane zagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzan
     \item Czujnik światła ultrafioletowego - LTR390
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{device-schematic.png}
+    \caption{Schemat urządzenia}
+    \label{device-schematic}
+\end{figure}
+
 \subsection{ESP-WROOM-32}
 ESP-WROOM-32 (albo ESP32-WROOM-32) to mikrokontroler ze zintegrowanym WIFI oraz bluetooth. Nadaje się do szerokiej gamy zastosowań:
-od kontrolera czujników z niskim poborem energii do zaawansowanych zadań enkodowania sygnałów głosowych czy muzyki.
-
-Moduły bazujące na rdzeniach ESP32 zyskały popularność ze wzklędu na zaintegrowaną obsługę WIFI, 
+od kontrolera czujników z niskim poborem energii do zaawansowanych zadań enkodowania sygnałów głosowych czy muzyki. Moduły bazujące na rdzeniach ESP32 zyskały popularność ze wzklędu na zaintegrowaną obsługę WIFI, 
 niskim kosztom oraz bogatej dokumentacji oraz wielu możliwych integracji.
 
 Mikrokontroler znajdzie zastosowanie w prostych jak i bardziej skomplikowanych projektach, dzięki dwóm rdzenion, które mogą być kontrolowane osobno,
@@ -374,7 +379,7 @@ Do implementacji systemu wbudowanego wykorzystane zostaną:
 
 \section{Oprogramowanie}
 
-\subsection{mDNS}
+\subsection{Protokół mDNS}
 
 Protokół mDNS służy do rozwiązywania nazw urządzeń sieciowych do adresów IP - dzięki temu użytkownik ma możliwość połączenia z urządzeniem nie znając
 jego adresu - wystarczy nazwa urządzenia sieciowego. mDNS należy do rodziny protkołów Zeroconf (lub zero-config)\cite{zeroconf-explanation} - nie wymaga konfiguracja do pracy 
@@ -623,6 +628,41 @@ Urządzenie dodatkowo wysyła dane z czujników do skonfigurowane serwera MQTT. 
     \centering
     \includegraphics[width=\textwidth]{mqtt1.png}
     \caption{Test integracji z MQTT}
+\end{figure}
+
+\subsection{Porównanie z komercyjnymi danymi pogodowymi}
+
+Dane pogodowe dostarczane przez urządzenie będą bardziej dokładne lokalnie niż prognoza pogody dostępna 
+w komercyjnych serwisach. Obrazek \ref{test-outside-site} wykazuje, że aktualna temperatura wynosi 
+\texttt{-3.6°C} a względna wilgotność powietrza wynosi \texttt{73.7\%}. 
+Dane udostępniane przez serwis meteo.pl \cite{meteopl-nysa} dla tej samej co lokalizacja urządzenia
+wskazuje, że temperatura wynosi 
+\texttt{-5°C} a względna wilgotność powietrza wynosi \texttt{85\%}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{test-outside-site.png}
+    \caption{Porównanie danych pogodowych - urządzenie}
+    \label{test-outside-site}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{test-outside-meteo.pl.png}
+    \caption{Porównanie danych pogodowych - meteo.pl}
+    \label{test-outside-meteo}
+\end{figure}
+
+\subsection{Dostęp do danych za pomocą MQTT i Home Assistant}
+
+Dane przesyłane do MQTT mogą być odczytane przez zewnętrzny serwis w ceu wyświetlenia danych - w tym przypadku jest to aplikacja Home Assistant\cite{homeassistant}. Za pomocą wpisu w konfiguracji w języku
+YAML możliwe jest odczytanie danych z serwera MQTT i wyświetlenie danych tych na panelu. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{home-assistant-weathe-station.png}
+    \caption{Dostęp do danych pogodowych przez Home Assistant}
+    \label{homeassistant-weather-station}
 \end{figure}
 
 \section{Wnioski}

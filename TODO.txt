@@ -40,7 +40,7 @@ aplikacja BLINK do komunikacji z esp32
 
 * streszczenie / abstract
 * fotografia urządzenia
-* schemat urządzenia z czujnikami
-* test z porównaniem na zewnątrz :)
+**** schemat urządzenia z czujnikami
+**** test z porównaniem na zewnątrz :)
 
 --------------------------------------------------------------------------------
