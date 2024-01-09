@@ -144,6 +144,13 @@ Dane zagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzan
     \label{device-schematic}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{device-image.jpg}
+    \caption{Fotografia prototypu urządzenia}
+    \label{device-image}
+\end{figure}
+
 \subsection{ESP-WROOM-32}
 ESP-WROOM-32 (albo ESP32-WROOM-32) to mikrokontroler ze zintegrowanym WIFI oraz bluetooth. Nadaje się do szerokiej gamy zastosowań:
 od kontrolera czujników z niskim poborem energii do zaawansowanych zadań enkodowania sygnałów głosowych czy muzyki. Moduły bazujące na rdzeniach ESP32 zyskały popularność ze wzklędu na zaintegrowaną obsługę WIFI, 
@@ -459,8 +466,7 @@ void loop(void)
 \label{http-server-code-parts}
 \end{code}
 
-Biblioteka pozwala na proste definiowanie adresów podstron, wraz z przyjmowanym typem zapytania http. Gdy serwer http odbierze zapytanie o
-podstrone z prawidłowym adresem, wykonuje metode zarejestrowaną w obiekcie serwera.
+Biblioteka pozwala na proste definiowanie adresów podstron, wraz z przyjmowanym typem zapytania http. Gdy serwer odbierze połączenie od klienta z prawidłowym adresem, wykonuje metode zarejestrowaną w obiekcie serwera, w przeciwnym wypadku zwraca odpowiedź z kodek \texttt{404 Not Found}.
 
 \subsection{Dostęp do danych przez przeglądarkę}
 
@@ -535,8 +541,7 @@ albo umożliwia stworzenie własnych integracji.
 
 \subsection{Dostęp do danych diagnostycznych}
 
-Urządzenie udostępnia dane, które mogą słuzyć do debugowania urządzenia za pomocą interfejsu szeregowego. W przypadku wykorzystanego w projekcie
-mikrokontrolera po uruchomieniu urządzenia dane zostaną wysyłane również na port szeregowy oprócz reszty procesów do przetwarzania danych.
+Urządzenie udostępnia dane, które mogą słuzyć do debugowania urządzenia za pomocą interfejsu szeregowego. Podczas procesu uruchamiania na port szeregowy wysyłane są dane informujące o przebiegu procesu uruchamiania urządzenia, połączeniu do siecie bezprzewodowej oraz po poprawnym uruchomieniu, aktualnie zebrane danye pogodowe.
 
 Funkcja \texttt{send\_debug\_info\_to\_serial} wysyła dane na interfejs szeregowy w postaci łatwej do przeczytania dla człowieka:
 
@@ -590,7 +595,6 @@ zarządza połączeniem do serwera oraz wymianą danych między klientem oraz se
 Poniższy kod umożliwia podłączenie urządzenia do lokalnego albo zewnętrzego serwera MQTT: 
 \begin{code}[H]
 \begin{minted}[frame=lines,]{c}
-void send_debug_info_to_serial()
 EspMQTTClient mqtt_client(
     "192.168.0.15", // host
     1883, // port
@@ -599,7 +603,7 @@ EspMQTTClient mqtt_client(
     mdns_hostname // device name
 );
 \end{minted}
-\caption{Kod dostępu do danych diagnostycznych}
+\caption{Kod umozliwiający połączenie do serwera MQTT}
 \label{diagnostic-data-code}
 \end{code}
 
@@ -666,7 +670,7 @@ YAML możliwe jest odczytanie danych z serwera MQTT i wyświetlenie danych tych 
 \end{figure}
 
 \section{Wnioski}
-Moduły bazujące na mikrokontrolerze ESP32 pozwalają na łatwą realizację projektów, a przez dużą różnorodność
+Moduły bazujące na mikrokontrolerze ESP32 pozwalają na łatwą realizację projektów, a przez dużą różnorodnośćIntegracja z MQT
 dostępnych na rynku modułów bazująych na tym mikrokontrolerze daje to ogromną wszechstronność w realizacji oraz dostępności, jednocześnie zachowując kompatybilność między modułami.
 
 W tej pracy zrealizowana lokalna stacja pogodowa umożliwia odczyt danych pogodowych w sieci lokalnej a także umożliwia łatwą integrację z zewnętrzymi systemami (interfejs REST API oraz integracja z MQTT).
