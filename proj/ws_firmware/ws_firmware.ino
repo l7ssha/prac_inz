@@ -96,11 +96,19 @@ const char html_template[] = R"###(
 #endif
 
 #if defined(ENABLE_MQTT)
+// EspMQTTClient mqtt_client(
+//     "192.168.0.15", // host
+//     1883, // port
+//     "mqtt-user", // username
+//     "mqtt-user", // password
+//     mdns_hostname // device name
+// );
+
 EspMQTTClient mqtt_client(
-    "192.168.0.15", // host
+    "public.mqtthq.com", // host
     1883, // port
-    "mqtt-user", // username
-    "mqtt-user", // password
+    "", // username
+    "", // password
     mdns_hostname // device name
 );
 #endif

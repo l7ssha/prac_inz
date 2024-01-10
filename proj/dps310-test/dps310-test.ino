@@ -23,4 +23,5 @@ void loop() {
   Serial.print(pressure_event.pressure);
   Serial.print(F("' Temperature: '"));
   Serial.print(temperature_event.temperature);
+  Serial.println(F(""));
 }
