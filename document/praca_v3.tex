@@ -629,7 +629,7 @@ EspMQTTClient mqtt_client(
 \end{code}
 
 Do wysyłki danych do brokera MQTT potrzebny jest temat, na który informacja ma być wysłana oraz
-sama dana w formacie \texttt{String} - ciąg znaków. W przykładzie zmienna z typem \texttt{float} zmieniania jest na ciąg znaków \texttt{String}:
+sama dana w formacie \texttt{String} - ciągu znaków. W przykładzie zmienna z typem \texttt{float} zmieniania jest na ciąg znaków \texttt{String}:
 \begin{code}[H]
 \begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
 void send_data_to_mqtt()
@@ -736,17 +736,17 @@ wskazuje, że temperatura wynosi
 % \end{figure}
 
 \section{Wnioski}
-Moduły bazujące na mikrokontrolerze ESP32 pozwalają na łatwą realizację projektów, a przez dużą różnorodnośćIntegracja z MQT
-dostępnych na rynku modułów bazujących na tym mikrokontrolerze daje to ogromną wszechstronność w realizacji oraz dostępności, jednocześnie zachowując kompatybilność między modułami.
+Moduły bazujące na mikrokontrolerze ESP32 pozwalają na łatwą realizację projektów, a przez dużą różnorodność ekosystemu Arduino integracja z innymi wspieranymi komponentami jest prosta oraz daje ogromną wszechstronność w realizacji projektów.
 
-W tej pracy zrealizowana lokalna stacja pogodowa umożliwia odczyt danych pogodowych w sieci lokalnej a także umożliwia łatwą integrację z zewnętrznymi systemami (interfejs REST API oraz integracja z MQTT).
+W tej pracy zrealizowana została lokalna stacja pogodowa umożliwiająca odczyt danych pogodowych w sieci lokalnej za pomocą interfejsu WWW, interfejsu REST API. Dostęp do danych spoza sieci lokalnej możliwy jest po podłączeniu do dostępnego publicznie serwera MQTT - urządzenie zostaje bezpośrednio dostępne tylko w sieci lokalnej, a dane mogą zostać pobrane z brokera MQTT (na przykład: mqtthq.com). Lokalny dostęp do urządzenia jest jest bardzo prosty dzięki protokołowi mDNS - aby połączyć się z urządzeniem nie jest potrzebny adres IP, a wystarczy nazwa urządzenia w sieci, która jest statyczna.
 
-Dostęp do danych spoza sieci lokalnej możliwy jest po podłączeniu do dostępnego publicznie serwera MQTT - urządzenie zostaje dostępne tylko w sieci lokalnej i nie jest narażone na potencjalne ataki w przypadku jeżeli urządzenie te byłoby dostępne publicznie. Lokalny dostęp do urządzenia jest jest bardzo prosty dzięki protokołowi mDNS - aby połączyć się z urządzeniem nie jest potrzebny adres IP, a wystarczy nazwa urządzenia w sieci, która jest statyczna.
+Urządzenie zostało uruchomione w środowisko lokalnej sieci LAN - interfejs WWW, interfejs programistyczny dostępne są wyłączenie w sieci lokalnej, a 
+dzięki możliwości połączenia do serwera MQTT możliwe jest odczytanie danych, które zbiera urządzenie poza lokalną siecią. Dane zostały poprawnie odczytane za pomocą interfejsu WWW, przez interfejs programistyczny REST API w formacie JSON oraz zostały poprawnie odczytane z tematu w publicznym brokerze MQTT.
 
-Kolejnym etapem rozwoju projektu mogłaby być kolejna wersja interfejsu użytkownika, dodatkowe integracje z innymi systemami zewnętrznymi lub integracja czujników oraz mikrokontrolera na jednej płytce PCB.
-
+Kolejnym etapem rozwoju projektu mogłaby być kolejna wersja interfejsu użytkownika, dodatkowe integracje z innymi systemami zewnętrznymi lub integracja czujników oraz mikrokontrolera na jednej płytce PCB. 
 Podłączenie kolejnych czujników do urządzenia również nie powinno sprawiać problemu ze względu na dużą dostępność dodatkowych pinów WE/WYJ oraz
 otwartej natury całego ekosystemu Arduino. 
+Kolejnym usprawnieniem projektu mogłoby być przystosowanie urządzenia do uruchomienia bez lokalnej sieci bezprzewodowej - do połączenia z Internetem mogłyby zostać wykorzystane modemy sieci GSM lub LoRA lub połączenie z siecią przewodową (sieć Ethernet).
 
 \section{Literatura}
 
@@ -758,7 +758,12 @@ otwartej natury całego ekosystemu Arduino.
 \listoffigures
 
 \section{Streszczenie}
-Praca inżynierska podejmuje temat "Konstrukcja stacji pogodowej opartej na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API REST". Głównym celem pracy było przygotowanie prototypu urządzenia stacji pogodowej wraz z oprogramowaniem oraz test przydatności takiego urządzenia do celów domowych. W ramach pracy został wybrany mikrokontroler oraz czujniki wykorzystane w urządzeniu. 
-Zostało przygotowane również oprogramowanie, które steruje pracą mikrokontrolera - urządzenia udostępnia interfejs www dla użytkownika, interfejs programowy REST API oraz integracje z MQTT. Duża różnorodność czujników, wysoka dostępność mikrokontrolerów oraz bogaty ekosystem programowy umożliwia szybką, tanią i prostą konstrukcje urządzeń bazujących na ESP32. Zaletami lokalnej stacji pogodowej jest wysoka dokładność oraz wysoka przewidywalność odczytów w porównaniu do danych zbieranych przez inne komercyjne serwisy.
+Praca inżynierska podejmuje temat "Konstrukcja stacji pogodowej opartej na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API REST". Głównym celem pracy było przygotowanie prototypu urządzenia stacji pogodowej wraz z oprogramowaniem oraz test przydatności takiego urządzenia do celów domowych.
+Zaletami lokalnej stacji pogodowej jest wysoka dokładność oraz wysoka przewidywalność odczytów w porównaniu do danych zbieranych przez inne komercyjne serwisy.
+W ramach pracy został wybrany mikrokontroler oraz czujniki wykorzystane w urządzeniu, zostało skonstruowany prototyp urządzenia bazujący na wybranych
+komponentatch oraz zostało przygotowane oprogramowanie sterujące pracją mikrokontrolera. Duża różnorodność czujników, wysoka dostępność mikrokontrolerów oraz bogaty ekosystem programowy umożliwia szybką, tanią i prostą konstrukcje urządzeń bazujących na ESP32.
+Oprogrwamowanie urządzenia udostępnia interfejs www dla użytkownika, interfejs programowy REST API oraz integracje z brokerem MQTT. 
+Urządzenie zostało uruchomione w środowisko lokalnej sieci LAN - interfejs WWW, interfejs programistyczny dostępne są wyłączenie w sieci lokalnej, a 
+dzięki możliwości połączenia do serwera MQTT możliwe jest odczytanie danych, które zbiera urządzenie poza lokalną siecią. Przyszłymi usprawnieniami projektu mogłyby być: integracja z wiekszą ilością czujników, implementacja przewodowego połączenia sieciowego, połączeń GSM lub LoRa oraz usprawnienia w interfejsie użytkownika.
 
 \end{document}
