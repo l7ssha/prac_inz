@@ -91,21 +91,13 @@
 \section{Wstęp}
 
 \subsection{Wprowadzenie}
-Dzięki szerokiemu dostępowi do internetu mamy łatwy dostęp do danych pogodowych aktualnych jak i historycznych z całego świata. Istnieje wiele
-serwisów, programów telewizyjnych, które aktualne dane pogodowe, prognozy pogody prezentują nam w przystępny sposób.
-Problemem z poleganiem na danych pogodowych z popularnych serwisów jest relatywnie niska dokładność aktualnych warunków pogodowych jak i prognoz pogody.
-Bowiem serwisy te nie mogą mieć stacji pogodowowych rozstawionych co na przykład kilometr, aby dokładność dla każdego potencjalnego zainteresowana była wysoka.
-Dlatego polega się w dużym stopniu na ogólnych danych z kilku, bądź kilkunastu stacji w danym regionie, aby wykonać ekstrapolację dla
-aktualnych warunków pogodowych dla całego regionu. 
-Serwisy udostępniające dane pogodowe dla lokalizacji są tylko przybliżeniem faktycznych stanu jaki znajduje sie w danym miejscu. 
+Dzięki szerokiemu dostępowi do internetu mamy łatwy dostęp do danych pogodowych aktualnych jak i historycznych z całego świata. Istnieje wiele serwisów, programów telewizyjnych, które aktualne dane pogodowe, prognozy pogody prezentują nam w przystępny sposób. Problemem z poleganiem na danych pogodowych z popularnych serwisów jest relatywnie niska dokładność aktualnych warunków pogodowych jak i prognoz pogody. Bowiem serwisy te nie mogą mieć stacji pogodowowych rozstawionych co na przykład kilometr, aby dokładność dla każdego potencjalnego zainteresowana była wysoka. Dlatego polega się w dużym stopniu na ogólnych danych z kilku, bądź kilkunastu stacji w danym regionie, aby wykonać ekstrapolację dla aktualnych warunków pogodowych dla całego regionu. Serwisy udostępniające dane pogodowe dla lokalizacji są tylko przybliżeniem faktycznych stanu jaki znajduje sie w danym miejscu.
 
 \subsection{Cel projektu oraz opis tworzonego rozwiązania}
 
-Celem projektu jest zbadanie przydatności modułu ESP32 oraz kompatybilnych komponentów do celów kolekcji danych pogodowych. 
-Rezultatem będzie utworzenie urządzenia opartego na systemie wbudowanym pozwalającym na wielofunkcyjny pomiar parametrów pogodowych oraz udostępnianie ich za pomocą witryny www.
+Celem projektu jest zbadanie przydatności modułu ESP32 oraz kompatybilnych komponentów do celów kolekcji danych pogodowych. Rezultatem będzie utworzenie urządzenia opartego na systemie wbudowanym pozwalającym na wielofunkcyjny pomiar parametrów pogodowych oraz udostępnianie ich za pomocą witryny www.
 
-Urządzenie, będzie udostępniało również interfejs programistyczny API REST, które będzie umożliwiało integracje oraz dalszy rozwój projektu 
-(np. integracja z systemem home assistant czy innymi urządzeniami Internetu rzeczy (IoT)).
+Urządzenie, będzie udostępniało również interfejs programistyczny API REST, które będzie umożliwiało integrację oraz dalszy rozwój projektu (np. integracja z systemem home assistant czy innymi urządzeniami Internetu rzeczy (IoT)).
 
 \subsubsection{Funkcje urządzenia}
 \begin{itemize}
@@ -117,15 +109,9 @@ Urządzenie, będzie udostępniało również interfejs programistyczny API REST
 
 \subsubsection{Dostęp zdalny do urządzenia}
 
-Urządzenia ze świata IoT są najczęściej urządzeniami lokalnymi - bez publicznego adresu IP i/lub bez możliwości zdalnego dostępu.
-Ze względu na niską moc takich urządzeń, ubogie oprogramowanie, w które takie urządzenia są wyposażone bardzo często nie zawierają
-wielu ważnych zabezpieczeń przeciwko potencjalnym atakom. Dodatkowo dane udostępnianie przez urządzenia IoT z bardzo często są danymi które nie powinny byc dostępne publicznie
-(np. dane o obecności osób w pomieszczeniu lub czy zamek od drzmi jest zamknięty). 
+Urządzenia ze świata IoT są najczęściej urządzeniami lokalnymi - bez publicznego adresu IP i/lub bez możliwości zdalnego dostępu. Ze względu na niską moc takich urządzeń, ubogie oprogramowanie, w które takie urządzenia są wyposażone bardzo często nie zawierają wielu ważnych zabezpieczeń przeciwko potencjalnym atakom. Dodatkowo dane udostępnianie przez urządzenia IoT z bardzo często są danymi które nie powinny być dostępne publicznie (np. dane o obecności osób w pomieszczeniu lub czy zamek od drzmi jest zamknięty).
 
-Zalecanym jest, aby dostęp do urządzeń IoT był całkowicie lokalny (najlepiej dodatkowo zablokować dostęp do internetu dla tych urządzeń),
-a zbieraniem i udostępnianiem danych publicznych było realizowane przez oprogramowanie dedykowane do tego celu.
-Aby umożliwić dostęp do danych zbieranych przez tworzone urządzenie będzie implementować możliwość konfiguracji wysyłania danych za pomocą MQTT.
-Dane zaagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarzane i udostępniane publicznie przez oprogramowanie do tego przystosowane.
+Zalecanym jest, aby dostęp do urządzeń IoT był całkowicie lokalny (najlepiej dodatkowo zablokować dostęp do internetu dla tych urządzeń), a zbieraniem i udostępnianiem danych publicznych było realizowane przez oprogramowanie dedykowane do tego celu. Aby umożliwić dostęp do danych zbieranych przez tworzone urządzenie, oprogramowanie będzie implementować możliwość wysyki danych do publicznego brokera MQTT. Dane zaagregowane przez MQTT mogą być dalej bezpiecznie filtrowane, przetwarzane i udostępniane publicznie przez oprogramowanie do tego przystosowane.
 
 \section{Konfiguracja sprzętowa}
 
@@ -152,19 +138,13 @@ Dane zaagregowane przez MQTT dalej mogą być bezpiecznie filtrowane, przetwarza
 \end{figure}
 
 \subsection{ESP-WROOM-32}
-ESP-WROOM-32 (albo ESP32-WROOM-32) to mikrokontroler ze zintegrowanym WIFI oraz bluetooth. Nadaje się do szerokiej gamy zastosowań:
-od kontrolera czujników z niskim poborem energii do zaawansowanych zadań enkodowania sygnałów głosowych czy muzyki. Moduły bazujące na rdzeniach ESP32 zyskały popularność ze wzklędu na zaintegrowaną obsługę WIFI, 
-niskim kosztom oraz bogatej dokumentacji oraz wielu możliwych integracji.
+ESP-WROOM-32 (albo ESP32-WROOM-32) to mikrokontroler ze zintegrowanymi interfejsami WIFI oraz bluetooth. Nadaje się do szerokiej gamy zastosowań: od kontrolera czujników z niskim poborem energii do zaawansowanych zadań enkodowania sygnałów głosowych czy muzyki. Moduły bazujące na rdzeniach ESP32 zyskały popularność ze wzlędu na zaintegrowaną obsługę WIFI,  wielu intefejsom oraz niskiemu kosztowi.
 
-Mikrokontroler znajdzie zastosowanie w prostych jak i bardziej skomplikowanych projektach, dzięki dwóm rdzenion, które mogą być kontrolowane osobno,
-szerokich możliwościach podłączenia urządzeń peryferyjnych (wsparcie dla: I2C, UART, SPI oraz inne).
+Mikrokontroler znajdzie zastosowanie w prostych jak i bardziej skomplikowanych projektach, dzięki dwóm rdzenion, szerokich możliwościach podłączenia urządzeń peryferyjnych (wsparcie dla: I2C, UART, SPI oraz inne).
 
-ESP-WROOM-32 składa się z mikrokontrolera ESP32-D0WDQ6 posiadającego dwa rdzenie, które pozwają na prace od 80MHz do 240 MHz. Procesor również
-posiada ko-procesor o niskim poborze mocy, który może zostać użyty zamiast głównych rdzeni w przypadku kiedy nie jest potrzebna duża moc obliczeniowa.
+ESP-WROOM-32 składa się z mikrokontrolera ESP32-D0WDQ6 posiadającego dwa rdzenie, które pozwają na prace z częstotliwościami zegara od 80MHz do 240 MHz. Procesor również posiada koprocesor o niskim poborze mocy, który może zostać użyty zamiast głównych rdzeni w przypadku kiedy nie jest potrzebna duża moc obliczeniowa.
 
-Integracja WIFI, Bluetooth i Bluetooth LE do mikrokontrolera pozwala na rozszerzenie możliwych zastosowań, gdzie nie jest możliwe podłączenie do sieci
-w konwencjonalny sposób za pomocą kabla. Komunikacja bezprzewodowa również umożliwia całkowicie zdalne zastosowania z wykorzystaniem akumulatorów
-oraz paneli słonecznych do zasilania mikrokontrolera.
+Integracja WIFI, Bluetooth i Bluetooth LE do mikrokontrolera pozwala na rozszerzenie możliwych zastosowań, gdzie nie jest możliwe podłączenie do sieci w konwencjonalny sposób za pomocą kabla. Komunikacja bezprzewodowa również umożliwia całkowicie zdalne zastosowania z wykorzystaniem akumulatorów oraz paneli słonecznych do zasilania mikrokontrolera.
 
 \subsubsection{Specyfikacja ESP-WROOM-32}
 
@@ -208,15 +188,11 @@ Do realizacji projektu została wybrany mikrokontroler ESP-WROOM-32 ze względu 
     \item LILYGO T-SIM7000G\cite{lilygo-esp32lte} (wbudowana obsługa LTE, mniejsza ilość wyprowadzeń do podłączenia urządzeń peryferyjnych, wysoka cena)
 \end{itemize}
 
-\noindent W finalnym produkcie w zależności od przeznaczenia użycie łączności bezprzewodowej może być niewskazane (daleka odległość od punktu dostępowego WIFI, duża ilość przeszkód).
-Użycie innych wersji ESP32 z wbudowaną obsługą przewodowego połączenia sieciowego lub możliwością połączenia do sieci przez LTE, może być wymagane - jednak
-w ramach realizacji zakresu projektu wybór padł na łatwiej dostępny moduł z łącznością bezprzewodową WIFI.  
+\noindent W finalnym produkcie w zależności od przeznaczenia użycie łączności bezprzewodowej może być niemożliwe (daleka odległość od punktu dostępowego WIFI, duża ilość przeszkód). Użycie innych wersji ESP32 z wbudowaną obsługą przewodowego połączenia sieciowego lub możliwością połączenia do sieci przez LTE, może być wymagane - jednak w ramach realizacji zakresu projektu wybór padł na łatwiej dostępny moduł z łącznością bezprzewodową WIFI.  
 
 \subsection{Czujnik natężenia światła - TSL25911}
 
-TSL25911 to czujnik światła z odpowiedzią podobną do ludzkiego oka. Posiada czułość 188 uLux oraz zakres dynamiczny 1 do 600,000,000.
-W porównaniu do innych tańszych rozwiązań bazujących na fotokomórkach CdS, daje o wiele bardziej precyzyjne rezultaty, z możliwością zmiany czułości i
-rozdzielczości w locie. 
+TSL25911 to czujnik światła z odpowiedzią podobną do ludzkiego oka. Posiada czułość 188 uLux oraz zakres dynamiczny 1 do 600,000,000. W porównaniu do innych tańszych rozwiązań bazujących na fotokomórkach CdS, daje o wiele bardziej precyzyjne rezultaty, z możliwością zmiany czułości i rozdzielczości w locie.
 
 \subsubsection{Specyfikacja TSL25911}
 \begin{table}[H]
@@ -255,9 +231,7 @@ rozdzielczości w locie.
 
 \subsection{Czujnik temperatury i wilgotności powietrza - DHT22}
 
-Czujnik DHT22 składaja się z dwóch części: pojemnościowego czujnika wilgotności i termistora. 
-Wewnątrz znajduje się również bardzo prosty chip, który dokonuje konwersji sygnału analogowego na cyfrowy i wysyła sygnał cyfrowy z temperaturą i wilgotnością. 
-Sygnał cyfrowy jest łatwy do odczytania za pomocą dowolnego mikrokontrolera.
+Czujnik DHT22 składaja się z dwóch części: pojemnościowego czujnika wilgotności i termistora. Wewnątrz znajduje się również bardzo prosty chip, który dokonuje konwersji sygnału analogowego na cyfrowy i wysyła sygnał cyfrowy z temperaturą i wilgotnością. Sygnał cyfrowy jest łatwy do odczytania za pomocą dowolnego mikrokontrolera.
 
 Czujnik ten cechuje sie bardzo niską ceną oraz bardzo dużą dokładnością w stosunku do ceny.
 
@@ -267,9 +241,7 @@ Potencjalnymi alternatywami, które mogły być wykorzystane to:
     \item AHT20 (niższa dokładność odczytu temperatury oraz podobna dokładność odczytu wilgotności, dostępny tylko jeden adres I2C)
 \end{itemize}
 
-Został wybrany DHT11 ze względu na prostote podłączenia (jedno wyjście cyfrowe) co sprawia, że możliwe jest podłączenie
-kilku czujników do jednego mikrokontrolera (co nie możliwe jest w przypadku AHT20, bez wykorzystania na przykład drugiego interfejsu I2C).
-Czujnika DHT22 cechuje się również niskim kosztem oraz wysoką dokładność w stosunku do ceny czujnika, co zadecydowało o finalnym wyborze tego produktu. 
+Został wybrany DHT11 ze względu na prostotę podłączenia (jedno wyjście cyfrowe) co sprawia, że możliwe jest podłączenie kilku czujników do jednego mikrokontrolera (co nie możliwe jest w przypadku AHT20, bez wykorzystania na przykład drugiego interfejsu I2C). Czujnika DHT22 cechuje się również niskim kosztem oraz wysoką dokładność w stosunku do ceny czujnika, co zadecydowało o finalnym wyborze tego produktu. 
 
 \subsubsection{Specyfikacja DHT22}
 
@@ -309,9 +281,7 @@ Czujnika DHT22 cechuje się również niskim kosztem oraz wysoką dokładność 
 
 \subsection{Czujnik ciśnienia oraz temperatury - DPS310}
 
-Czujnik DP310 służy do dokładnego pomiaru ciśnienia atmosferycznego oraz posiada dodatkowy czujnik temperatury. Posiada wysoką dokładność obsolutną +-1 hPa oraz 
-pracuje w zakresie od 300 do 1200 hPa. Czujnik cechuje sie niską ceną, wysoką dokładnością w stosunku do ceny, oraz posiada dodatkowy czujnik temperatury, który może 
-służyć jako preferowana metoda pomiaru temperatury, albo jako dodatkowy punkt w danych pomiarowych.
+Czujnik DP310 służy do dokładnego pomiaru ciśnienia atmosferycznego oraz posiada dodatkowy czujnik temperatury. Posiada wysoką dokładność obsolutną +-1 hPa oraz pracuje w zakresie od 300 do 1200 hPa. Czujnik cechuje sie niską ceną, wysoką dokładnością w stosunku do ceny, oraz posiada dodatkowy czujnik temperatury, który może służyć jako preferowana metoda pomiaru temperatury, albo jako dodatkowy punkt w danych pomiarowych.
 
 Potencjalnymi alternatywami, które mogły być wykorzystane to:
 \begin{itemize}
@@ -361,9 +331,7 @@ Czujnik został wybrany z powodu konkurencyjnej ceny, dużej dostępności oraz 
 
 \subsection{Czujnik światła ultrafioletowego - LTR390}
 
-Czujnik LTR390 jest urządzeniem o bardzo niskim koszcie oraz wysokiej dokładności na światło w zakresie od 300nm do 350 nm. Czujnik posiada dwa sensory - jeden do światła UV, drugi do światła widzialnego 
-co pozwala na precyzyjne określenie ilości padającego na czujnik światła UV. W porównaniu do innych czujników oferuje bezpośredni odczyt wartości światła UV z sensora (czujnik SI1145 oblicza ilość światła UV z całkowitego odczytu padającego światłą we wszystkich zakresach) 
-oraz pozwala na odczyt danych za pomocą interfejsu I2C (bez konieczności posiadania interfejsów SPI czy posiadania dodatkowych konwerterów analogowo-cyfrowych) 
+Czujnik LTR390 jest urządzeniem o bardzo niskim koszcie oraz wysokiej dokładności na światło w zakresie od 300nm do 350 nm. Czujnik posiada dwa sensory - jeden do światła UV, drugi do światła widzialnego co pozwala na precyzyjne określenie ilości padającego na czujnik światła UV. W porównaniu do innych czujników oferuje bezpośredni odczyt wartości światła UV z sensora (czujnik SI1145 oblicza ilość światła UV z całkowitego odczytu padającego światłą we wszystkich zakresach) oraz pozwala na odczyt danych za pomocą interfejsu I2C (bez konieczności posiadania interfejsów SPI czy posiadania dodatkowych konwerterów analogowo-cyfrowych).
 
 Potencjalnymi alternatywami, które mogły być wykorzystane to:
 \begin{itemize}
@@ -371,8 +339,7 @@ Potencjalnymi alternatywami, które mogły być wykorzystane to:
     \item GUVA-S12SD (wymagany konwerter analogow-cyfrowy do odczytu danych)
 \end{itemize}
 
-Czujnik został wybrany z powodu wysokiej dokładności (bezpośredni odczyt wartości padającego światła UV) oraz prostoty podłączenia czujnika do mikrokontrolera (interfejs I2C). 
-Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest dodatkowym plusem.
+Czujnik został wybrany z powodu wysokiej dokładności (bezpośredni odczyt wartości padającego światła UV) oraz prostoty podłączenia czujnika do mikrokontrolera (interfejs I2C). Bardzo niska cena oraz możliwość odczytu natężenia światła (w lux) jest dodatkowym plusem.
 
 \subsubsection{Specyfikacja LTR390}
 
@@ -459,17 +426,14 @@ void loop(void)
 \label{http-server-code-parts}
 \end{code}
 
-Biblioteka pozwala na proste definiowanie adresów podstron, wraz z przyjmowanym typem zapytania http. Gdy serwer odbierze połączenie od klienta z prawidłowym adresem, wykonuje metode zarejestrowaną w obiekcie serwera, w przeciwnym wypadku zwraca odpowiedź z kodek \texttt{404 Not Found}.
+Biblioteka ta pozwala na proste definiowanie adresów podstron, wraz z przyjmowanym typem zapytania http. Gdy serwer odbierze połączenie od klienta z prawidłowym adresem, wykonuje metode zarejestrowaną w obiekcie serwera, w przeciwnym wypadku zwraca odpowiedź z kodem  \texttt{404 Not Found}.
 
 \subsection{Dostęp do danych przez przeglądarkę}
 
-Urządzenie udostępnia stronę www z odczytami czujników w prostym formacie dla odczytu przez człowieka. 
-Przy pomocy HTML oraz CSS prezentowana jest tabela ze wszystkimi danymi, które udostępnia urządzenie, informacja jaki czas temu
-dane były aktualizowane oraz jak długo urządzenie pracuje.
+Urządzenie udostępnia stronę www z odczytami czujników w prostym dla odczytu przez człowieka formacie. Przy pomocy HTML oraz CSS prezentowana jest tabela ze wszystkimi danymi, które udostępnia urządzenie, informacja jaki czas temu dane były aktualizowane oraz jak długo urządzenie pracuje.
 
-Aktualne dane zebrane przez urządzenie są wstrzykiwane do szablonu http za pomocą funkcji \texttt{sprintf}. W pierwszym parametrze podana jest
-zmienna do bufora na przetwarzane, w drugim zmienna z szablonem html a reszta parametrów to poszczególne dane, które mają być wstrzyknięte.
-Następnie gotowy plik html jest wysyłany do użytkownika.
+Aktualne dane zebrane przez urządzenie są wstrzykiwane do szablonu http za pomocą funkcji sprintf. W pierwszym parametrze podana jest zmienna do bufora, w drugim zmienna z szablonem html a reszta parametrów to poszczególne dane, które mają być wstrzyknięte. Następnie gotowy plik html jest wysyłany do użytkownika.
+
 
 \begin{code}[H]
 \begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em,samepage]{c}
@@ -505,13 +469,7 @@ void handle_root_request(
 \label{user-interface-code}
 \end{code}
 
-Szablon pliku html jest przechowywany w pamięci programowej programu w stałej \texttt{html\_template}. Zaletą takiego rozwiązania jest prostota implementacji
-oraz szybkość działania - dane są zawsze gotowe do wykorzystania. Alternatywnie można byłoby wykorzystać pamięć SPIFFS urządzenia do przechowywania szablonu
-html - byłoby to bardziej elastyczne rozwiązanie, które nie wymagało by ponownej kompilacji programu, aby zmienić szablon html. Z drugiej strony rozwiązanie to
-mogłoby powodować zwiększony narzut przy generowaniu odpowiedzi przy każdym zapytaniu. Ze względu na prostotę pierwszego rozwiązania oraz potencjalne
-problemy z wydajnością drugiego rozwiązania zdecydowałem sie załadować szablon do kodu programu w tej wersji oprogramowania.
-Do deklaracji zawartości zmiennej jest użyta deklaracja literał ciągu znaków (string literal), aby w prosty sposób było możliwe zawarcie w środku 
-zmiennej znaków specjalnych, znaków niedozwolonych oraz w celu Udostępnienia możliwości deklaracji wieloliniowego ciągu znaków.
+Szablon pliku html jest przechowywany w pamięci programowej programu w stałej \texttt{html\_template}. Zaletą takiego rozwiązania jest prostota implementacji oraz szybkość działania - dane są zawsze gotowe do wykorzystania. Alternatywnie można byłoby wykorzystać pamięć SPIFFS urządzenia do przechowywania szablonu html - byłoby to bardziej elastyczne rozwiązanie, które nie wymagało by ponownej kompilacji programu, aby zmienić szablon html. Z drugiej strony rozwiązanie to mogłoby powodować zwiększony narzut przy generowaniu odpowiedzi przy każdym zapytaniu. Ze względu na prostotę pierwszego rozwiązania oraz potencjalne problemy z wydajnością drugiego rozwiązania zdecydowałem sie załadować szablon do kodu programu w tej wersji oprogramowania. Do deklaracji zawartości zmiennej jest użyta deklaracja jako literał ciągu znaków (string literal), aby w prosty sposób było możliwe zawarcie w środku zmiennej znaków specjalnych, znaków niedozwolonych oraz w celu udostępnienia możliwości deklaracji wieloliniowego ciągu znaków.
 
 \begin{code}[H]
 \begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
@@ -529,8 +487,7 @@ Przyszłym usprawnieniem urządzenia mogłoby być sprawdzanie przydatności pam
 
 \subsubsection{Testy interfejsu WWW}
 
-Interfejs WWW użytkownika zawiera komplet danych zbieranych przez urządzenie oraz kiedy ostatni raz dane były aktualizowane. 
-Odświeżenie przeglądarki spowoduje pobranie nowych danych z urządzenia.
+Interfejs WWW użytkownika zawiera komplet danych zbieranych przez urządzenie oraz kiedy ostatni raz dane były aktualizowane. Odświeżenie przeglądarki spowoduje pobranie nowych danych z urządzenia.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{web-interface.png}
@@ -539,8 +496,7 @@ Odświeżenie przeglądarki spowoduje pobranie nowych danych z urządzenia.
 
 \subsection{Dostęp do danych przez REST API}
 
-Urządzenie udostępnia dane również poprzez REST API w postaci JSON - umożliwia to łatwą integrację urządzenia z innymi narzędziami, 
-albo umożliwia stworzenie własnych integracji.
+Urządzenie udostępnia dane również poprzez interfejs REST API w postaci JSON - umożliwia to łatwą integrację urządzenia z innymi narzędziami, albo umożliwia stworzenie własnych integracji.
 
 \subsubsection{Testy REST API}
 \begin{figure}[H]
@@ -593,8 +549,7 @@ void send_debug_info_to_serial()
 \end{code}
 
 Jako, że powyższa funkcja operuje na dużej ilość tekstu w sposób cały, zostało zastosowana optymalizacja w postaci użycia funkcji 
-\texttt{F} - funkcja ta sprawia, że dany łańcuch znaków nie jest kopiowany do pamięci PSRAM mikrokontrolera przed wysłaniem na interfejs szeregowy, 
-a dane są bezpośrednio kopiowane z programu do strumienia, który wysyłane dane na interfejs. 
+\texttt{F} - funkcja ta sprawia, że dany łańcuch znaków nie jest kopiowany do pamięci PSRAM mikrokontrolera przed wysłaniem na interfejs szeregowy, a dane są bezpośrednio kopiowane z programu do strumienia, który wysyłane dane na interfejs.
 
 \subsection{Test danych diagnostycznych}
 
@@ -613,7 +568,7 @@ Urządzenie dodatkowo udostępnia możliwość połączenia do brokera MQTT - co
 MQTT to prosty oraz lekki protokół wymiany danych oparty o wzorzec publikacja/subskrypcja. Przeznaczony do zastosowań nie wymagających dużej przepustowości. Ze względu na prostotę oraz lekkość jest bardzo niezawodny oraz niewymagający skomplikowanej implementacji co czyni go idealnym dla zastosowań Internetu Rzeczy.
 
 Do implementacji połączenia do serwera MQTT użyta została biblioteka \texttt{EspMQTTClient}\cite{esp32-mqtt-server-library} - 
-zarządza połączeniem do serwera oraz wymianą danych między klientem oraz serwerem. Poniższy kod umożliwia podłączenie urządzenia do lokalnego albo zewnętrznego serwera MQTT: 
+która zarządza połączeniem do serwera oraz wymianą danych między klientem oraz serwerem. Poniższy kod umożliwia podłączenie urządzenia do lokalnego albo zewnętrznego serwera MQTT:
 \begin{code}[H]
 \begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
 EspMQTTClient mqtt_client(
@@ -656,8 +611,7 @@ Możliwe jest połączenie sie do lokalnego serwera MQTT jeżeli urządzenie prz
     \caption{Test integracji z MQTT z serwerem publicznym}
 \end{figure}
 
-Do podejrzenia danych przesyłanych na serwer MQTT został użyty program MQTT Explorer\cite{mqtt-explorer} - jest to darmowy program pełniący rolę klienta MQTT, pozwalający na odczyt
-danych z tematów serwera MQTT oraz na nadawanie nowych wiadomości w zadanym temacie. Program jest dostępny na systemy operacyjne Windows, Linux oraz Mac
+Do podejrzenia danych przesyłanych na serwer MQTT został użyty program MQTT Explorer - jest to darmowy program pełniący rolę klienta MQTT, pozwalający na odczyt danych z tematów serwera MQTT oraz na nadawanie nowych wiadomości w zadanym temacie. Program jest dostępny na systemy operacyjne Windows, Linux oraz Mac.
 
 \begin{figure}[H]
     \centering
@@ -667,17 +621,13 @@ danych z tematów serwera MQTT oraz na nadawanie nowych wiadomości w zadanym te
 
 \subsection{Protokół mDNS}
 
-Protokół mDNS służy do rozwiązywania nazw urządzeń sieciowych do adresów IP - dzięki temu użytkownik ma możliwość połączenia z urządzeniem nie znając
-jego adresu - wystarczy nazwa urządzenia sieciowego. mDNS należy do rodziny protokołów Zeroconf (lub zero-config)\cite{zeroconf-explanation} - nie wymaga konfiguracja do pracy 
+Protokół mDNS służy do rozwiązywania nazw urządzeń sieciowych do adresów IP - dzięki temu użytkownik ma możliwość połączenia z urządzeniem nie znając jego adresu - wystarczy nazwa urządzenia sieciowego. mDNS należy do rodziny protokołów Zeroconf (lub zero-config)\cite{zeroconf-explanation} - nie wymaga konfiguracja do pracy 
 i jest protokół ten wspierany przez Windowsa (10+) oraz Linuxa (po instalacji programu Avahi).
 
-W projekcie zostanie protokół ten użyty, aby użytkownik nie musiał znać adresu IP urządzenia, aby sie z nim połączyć. 
-Protokół jest konfigurowany za pomocą pliku nagłówkowego \texttt{ESPmDNS.h}. Aby skonfigurować usługę, aby mikrokontroler był możliwy do odnalezienia
-w sieci poprzez mDNS nalezy wystartować serwer mDNS oraz dodać nową usługę usługę z typem (w przykładzie \texttt{http}), protokołem (w przykładzie \texttt{tcp}) 
+W projekcie protokół ten zostanie użyty, aby użytkownik nie musiał znać adresu IP urządzenia, aby sie z nim połączyć. Protokół jest konfigurowany za pomocą pliku nagłówkowego \texttt{ESPmDNS.h}. Aby skonfigurować usługę, aby mikrokontroler był możliwy do odnalezienia w sieci poprzez mDNS należy wystartować serwer mDNS oraz dodać nową usługę usługę z typem (w przykładzie http), protokołem (w przykładzie  \texttt{http}), protokołem (w przykładzie \texttt{tcp}) 
 oraz portem pod którym usługa jest dostępna (w przykładzie: \texttt{80} - port serwera www z danymi, które udostępnia urządzenie).
 
-Po prawidłowej konfiguracji oraz wpisaniu adresu \\\texttt{http://esp32-weather-station.local/} w przeglądarce powinniśmy zobaczyć stronę www udostępnianą przez
-mikrokontroler.
+Po prawidłowej konfiguracji oraz wpisaniu adresu \\\texttt{http://esp32-weather-station.local/} w przeglądarce powinna zostać wyświetlona strona www udostępnianą przez mikrokontroler.
 
 \begin{code}[H]
 \begin{minted}[frame=lines,baselinestretch=1,breaklines,linenos,xleftmargin=1.5em]{c}
@@ -702,8 +652,7 @@ void setup()
 
 % \subsection{Porównanie z komercyjnymi danymi pogodowymi}
 
-Dane pogodowe dostarczane przez urządzenie będą bardziej dokładne lokalnie niż prognoza pogody dostępna 
-w komercyjnych serwisach. Obrazek \ref{test-outside-site} wykazuje, że aktualna temperatura wynosi 
+Dane pogodowe dostarczane przez urządzenie będą bardziej dokładne lokalnie niż prognoza pogody dostępna w komercyjnych serwisach. Obrazek \ref{test-outside-site} wykazuje, że aktualna temperatura wynosi 
 \texttt{-3.6°C} a względna wilgotność powietrza wynosi \texttt{73.7\%}. 
 Dane udostępniane przez serwis meteo.pl \cite{meteopl-nysa} dla tej samej co lokalizacja urządzenia
 wskazuje, że temperatura wynosi 
@@ -740,13 +689,10 @@ Moduły bazujące na mikrokontrolerze ESP32 pozwalają na łatwą realizację pr
 
 W tej pracy zrealizowana została lokalna stacja pogodowa umożliwiająca odczyt danych pogodowych w sieci lokalnej za pomocą interfejsu WWW, interfejsu REST API. Dostęp do danych spoza sieci lokalnej możliwy jest po podłączeniu do dostępnego publicznie serwera MQTT - urządzenie zostaje bezpośrednio dostępne tylko w sieci lokalnej, a dane mogą zostać pobrane z brokera MQTT (na przykład: mqtthq.com). Lokalny dostęp do urządzenia jest jest bardzo prosty dzięki protokołowi mDNS - aby połączyć się z urządzeniem nie jest potrzebny adres IP, a wystarczy nazwa urządzenia w sieci, która jest statyczna.
 
-Urządzenie zostało uruchomione w środowisko lokalnej sieci LAN - interfejs WWW, interfejs programistyczny dostępne są wyłączenie w sieci lokalnej, a 
-dzięki możliwości połączenia do serwera MQTT możliwe jest odczytanie danych, które zbiera urządzenie poza lokalną siecią. Dane zostały poprawnie odczytane za pomocą interfejsu WWW, przez interfejs programistyczny REST API w formacie JSON oraz zostały poprawnie odczytane z tematu w publicznym brokerze MQTT.
+Urządzenie zostało uruchomione w środowisko lokalnej sieci LAN - interfejs WWW, interfejs programistyczny dostępne są wyłączenie w sieci lokalnej, a dzięki możliwości połączenia do serwera MQTT możliwe jest odczytanie danych, które zbiera urządzenie poza lokalną siecią. Dane zostały poprawnie odczytane za pomocą interfejsu WWW, przez interfejs programistyczny REST API w formacie JSON oraz zostały poprawnie odczytane z tematu w publicznym brokerze MQTT.
 
-Kolejnym etapem rozwoju projektu mogłaby być kolejna wersja interfejsu użytkownika, dodatkowe integracje z innymi systemami zewnętrznymi lub integracja czujników oraz mikrokontrolera na jednej płytce PCB. 
-Podłączenie kolejnych czujników do urządzenia również nie powinno sprawiać problemu ze względu na dużą dostępność dodatkowych pinów WE/WYJ oraz
-otwartej natury całego ekosystemu Arduino. 
-Kolejnym usprawnieniem projektu mogłoby być przystosowanie urządzenia do uruchomienia bez lokalnej sieci bezprzewodowej - do połączenia z Internetem mogłyby zostać wykorzystane modemy sieci GSM lub LoRA lub połączenie z siecią przewodową (sieć Ethernet).
+Kolejnym etapem rozwoju projektu mogłaby być kolejna wersja interfejsu użytkownika, dodatkowe integracje z innymi systemami zewnętrznymi lub integracja czujników oraz mikrokontrolera na jednej płytce PCB. Podłączenie kolejnych czujników do urządzenia również nie powinno sprawiać problemu ze względu na dużą dostępność dodatkowych pinów WE/WYJ oraz otwartej natury całego ekosystemuESP32. Kolejnym usprawnieniem projektu mogłoby być przystosowanie urządzenia do uruchomienia bez lokalnej sieci bezprzewodowej - do połączenia z Internetem mogłyby zostać wykorzystane modemy sieci GSM lub LoRa lub połączenie z siecią przewodową (sieć Ethernet).
+
 
 \section{Literatura}
 
@@ -758,12 +704,6 @@ Kolejnym usprawnieniem projektu mogłoby być przystosowanie urządzenia do uruc
 \listoffigures
 
 \section{Streszczenie}
-Praca inżynierska podejmuje temat "Konstrukcja stacji pogodowej opartej na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API REST". Głównym celem pracy było przygotowanie prototypu urządzenia stacji pogodowej wraz z oprogramowaniem oraz test przydatności takiego urządzenia do celów domowych.
-Zaletami lokalnej stacji pogodowej jest wysoka dokładność oraz wysoka przewidywalność odczytów w porównaniu do danych zbieranych przez inne komercyjne serwisy.
-W ramach pracy został wybrany mikrokontroler oraz czujniki wykorzystane w urządzeniu, zostało skonstruowany prototyp urządzenia bazujący na wybranych
-komponentatch oraz zostało przygotowane oprogramowanie sterujące pracją mikrokontrolera. Duża różnorodność czujników, wysoka dostępność mikrokontrolerów oraz bogaty ekosystem programowy umożliwia szybką, tanią i prostą konstrukcje urządzeń bazujących na ESP32.
-Oprogrwamowanie urządzenia udostępnia interfejs www dla użytkownika, interfejs programowy REST API oraz integracje z brokerem MQTT. 
-Urządzenie zostało uruchomione w środowisko lokalnej sieci LAN - interfejs WWW, interfejs programistyczny dostępne są wyłączenie w sieci lokalnej, a 
-dzięki możliwości połączenia do serwera MQTT możliwe jest odczytanie danych, które zbiera urządzenie poza lokalną siecią. Przyszłymi usprawnieniami projektu mogłyby być: integracja z wiekszą ilością czujników, implementacja przewodowego połączenia sieciowego, połączeń GSM lub LoRa oraz usprawnienia w interfejsie użytkownika.
+Praca inżynierska podejmuje temat "Konstrukcja stacji pogodowej opartej na mikrokontrolerze ESP32 z interfejsem użytkownika oraz API REST". Głównym celem pracy było przygotowanie prototypu urządzenia stacji pogodowej wraz z oprogramowaniem oraz test przydatności takiego urządzenia do celów domowych. Zaletami lokalnej stacji pogodowej jest wysoka dokładność oraz wysoka przewidywalność odczytów w porównaniu do danych zbieranych przez inne komercyjne serwisy. W ramach pracy został wybrany mikrokontroler ESP32 oraz czujniki wykorzystane w urządzeniu, został skonstruowany prototyp urządzenia bazujący na wybranych komponentatch oraz zostało przygotowane oprogramowanie sterujące pracą mikrokontrolera. Duża różnorodność czujników, wysoka dostępność mikrokontrolerów oraz bogaty ekosystem programowy umożliwia szybką, tanią i prostą konstrukcje urządzeń bazujących na ESP32. Oprogramowanie urządzenia udostępnia interfejs www dla użytkownika, interfejs programowy REST API oraz integracje z brokerem MQTT. Urządzenie zostało uruchomione w środowisko lokalnej sieci LAN - interfejs WWW, interfejs programistyczny dostępne są wyłącznie w sieci lokalnej, a dzięki możliwości połączenia do serwera MQTT możliwe jest odczytanie danych, które zbiera urządzenie poza lokalną siecią. Przyszłymi usprawnieniami projektu mogłyby być integracja z wiekszą ilością czujników, implementacja przewodowego połączenia sieciowego, połączeń GSM lub LoRa oraz usprawnienia w interfejsie użytkownika.
 
 \end{document}
